@@ -29,12 +29,20 @@ export interface ClassTask {
 	authorId: string;
 	createdAt: Date | string;
 
+	authorDisplayName: string
 	name: string;
 	description: string;
 	dueDate: Date | string;
 }
 
-export interface NoryBody<Data> {
+export interface ClassMember {
+	classId: string
+	userId: string
+
+	level: string
+}
+
+export interface NoryResponse<Data> {
 	code: number;
 	message?: string;
 	data: Data;
@@ -42,8 +50,8 @@ export interface NoryBody<Data> {
 }
 
 export class NoryError extends Error {
-	body: NoryBody<null>;
-	constructor(body: NoryBody<null>) {
+	body: NoryResponse<null>;
+	constructor(body: NoryResponse<null>) {
 		super(body.message || "");
 		this.body = body;
 	}
@@ -55,9 +63,12 @@ export interface NoryRequestInit extends RequestInit {
 }
 
 export class NoryClient {
-	constructor(public endpoint: string, public accessToken: string | null) {}
+	constructor(
+		public endpoint: string,
+		public accessToken: string | null,
+	) {}
 
-	async fetch<Data>(init: NoryRequestInit): Promise<NoryBody<Data>> {
+	async fetch<Data>(init: NoryRequestInit): Promise<NoryResponse<Data>> {
 		const url = new URL(init.path, this.endpoint);
 		init.headers = new Headers(init.headers);
 		if (this.accessToken) {
@@ -88,6 +99,10 @@ export class NoryClient {
 
 	getClasses() {
 		return this.fetch<Class[]>({ path: "/user/class" });
+	}
+
+	getJoinedClasses() {
+		return this.fetch<ClassMember[]>({ path: "/user/joined" });
 	}
 
 	createClass(c: Omit<Class, "createdAt" | "classId" | "ownerId">) {
@@ -123,7 +138,34 @@ export class NoryClient {
 	}
 
 	getClassTask(classId: string) {
-		return this.fetch<Class>({ path: `/class/${classId}/task` });
+		return this.fetch<ClassTask[]>({ path: `/class/${classId}/task` });
+	}
+
+	getClassMember(classId: string) {
+		return this.fetch<ClassMember[]>({ path: `/class/${classId}/member` });
+	}
+
+	addClassMember(classId: string, username: string) {
+		return this.fetch<null>({ 
+			path: `/class/${classId}/member`,
+			method: "POST",
+			json: { username },
+		})
+	}
+
+	updateClassMember(classId: string, memberId: string, member: { level: string }) {
+		return this.fetch<null>({
+			path: `/class/${classId}/member/${memberId}`,
+			method: "PATCH",
+			json: member,
+		})
+	}
+
+	removeClassMember(classId: string, memberId: string) {
+		return this.fetch<null>({
+			path: `/class/${classId}/member/${memberId}`,
+			method: "DELETE",
+		})
 	}
 
 	createClassTask(task: { classId: string; name: string; dueDate: Date; description: string }) {

@@ -15,7 +15,7 @@
 				dalam tahap awal pengembangan.
 			</p>
 			<div class="justify-center flex w-full">
-				<button class="btn btn-primary"> Mulai </button>
+				<a href="/user" class="btn btn-primary"> Mulai </a>
 			</div>
 		</div>
 	</div>

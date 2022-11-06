@@ -10,7 +10,6 @@ export async function load({ locals, url }) {
 		throw redirect(302, login.href);
 	}
 	const { data: user } = await noryClient.getProfile();
-	const { data: classes } = await noryClient.getClasses();
-	console.log(classes);
-	return { user, classes };
+	const { data: members } = await noryClient.getJoinedClasses();
+	return { user, members };
 }

@@ -6,12 +6,13 @@
 
 	import CreateTaskForm from "$lib/components/CreateTaskForm.svelte";
 	import ClassTaskTable from "$lib/components/ClassTaskTable.svelte";
+	import ClassMemberList from "$lib/components/ClassMemberList.svelte";
+	import AddClassMemberForm from "$lib/components/AddClassMemberForm.svelte";
 
 	let selected = "task";
 </script>
 
 <main class="flex-auto">
-
 	<div class="p-4">
 		<h1 class="text-5xl capitalize"> {$page.data.info.name} </h1>
 		<p> {$page.data.info.description} </p>
@@ -36,23 +37,16 @@
 
 	{#if selected === "task"}
 		<div class="px-4 flex flex-col">
-			<span class="mt-4 text-xl"> Tugas Baru </span>
+			<h2 class="mt-4 text-3xl"> Tugas Baru </h2>
 			<CreateTaskForm />
-			<span class="mt-4 text-xl"> Daftar Tugas </span>
+			<div class="divider"></div>
+			<h2 class="mt-4 text-3xl"> Daftar Tugas </h2>
 			<ClassTaskTable tasks={$page.data.task} class="-mx-4"/>
 		</div>
-	{:else if selected === "member-"}
-		<div class="overflow-x-auto">
-			<table class="table table-zebra w-full">
-				<thead>
-					<tr>
-						<th />
-						<th>Name</th>
-						<th />
-						<th />
-					</tr>
-				</thead>
-			</table>
+	{:else if selected === "member"}
+		<div class="px-4 flex flex-col">
+			<AddClassMemberForm />
+			<ClassMemberList members={$page.data.member} class="-mx-4" />
 		</div>
 	{/if}
 </main>

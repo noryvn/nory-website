@@ -10,11 +10,9 @@
 
 	function sorter(field: string, asc: boolean) {
 		return (a: ClassTask, b: ClassTask) => {
-			let greater = false;
+			let greater = a[field] > b[field];
 			if (typeof a[field] === "string") {
 				greater = a[field].localeCompare(b[field]) != -1;
-			} else {
-				greater = a[field] > b[field];
 			}
 			if (asc) {
 				greater = !greater;
@@ -34,7 +32,7 @@
 	const fieldText = {
 		dueDate: "tenggat",
 		description: "deskripsi",
-		name: "name"
+		name: "nama"
 	};
 </script>
 
@@ -86,12 +84,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each t as task}
+				{#each t as task, i (task.taskId)}
 					<tr>
-						<th />
-						<th>{task.name}</th>
-						<th>{new Date(task.dueDate).toLocaleDateString("en-GB")}</th>
-						<th class="max-w-sm break-all whitespace-pre">
+						<th> {i + 1}. </th>
+						<th> {task.name} </th>
+						<th class="w-max"> {new Date(task.dueDate).toLocaleDateString("en-GB")} </th>
+						<th class="break-all whitespace-pre">
 							{task.description}
 						</th>
 					</tr>

@@ -19,6 +19,9 @@
 			error = null;
 			message = "";
 			loading = true;
+			if (dueDate === "2005-08-11") {
+				throw new Error("Hei, ini tanggal apa?")
+			}
 
 			await noryClient.createClassTask({
 				name,
@@ -64,9 +67,13 @@
 			class="input input-bordered grow"
 			bind:value={dueDate}
 		/>
-		<button type="button" class="btn btn-primary" on:click={() => (dueDate = currentDate)}>
-			reset</button
+		<button 
+			type="button" 
+			class="btn btn-primary" 
+			on:click={() => (dueDate = currentDate)}
 		>
+			reset
+		</button>
 	</div>
 
 	<label for="task-description-input" class="label">

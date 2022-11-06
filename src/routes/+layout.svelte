@@ -19,11 +19,7 @@
 		supabaseClient.auth
 			.getSession()
 			.then(async ({ data, error }) => {
-				if (data.session === null) {
-					({ data, error } = await supabaseClient.auth.refreshSession());
-				}
-
-				const accessToken = data.session?.access_token;
+				const accessToken = data.session?.access_token || null;
 				if (accessToken) {
 					noryClient.accessToken = accessToken;
 				}
@@ -48,7 +44,10 @@
 					method: "PUT",
 					body: JSON.stringify({ accessToken })
 				}).then(() => {
-					const redirectUrl = $page.url.searchParams.get(QUERY.AFTER_LOGIN);
+					let redirectUrl = $page.url.searchParams.get(QUERY.AFTER_LOGIN)
+					if ($page.url.pathname === "/login" || $page.url.pathname === "/signup") {
+						redirectUrl ||= new URL("/user", $page.url)
+					}
 					if (redirectUrl) {
 						goto(redirectUrl);
 					}
