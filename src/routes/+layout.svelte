@@ -20,8 +20,17 @@
 			.getSession()
 			.then(async ({ data, error }) => {
 				const accessToken = data.session?.access_token || null;
-				if (accessToken) {
-					noryClient.accessToken = accessToken;
+				if (!accessToken) {
+					return
+				}
+				noryClient.accessToken = accessToken;
+
+				let redirectUrl = $page.url.searchParams.get(QUERY.AFTER_LOGIN);
+				if ($page.url.pathname === "/login" || $page.url.pathname === "/signup") {
+					redirectUrl ||= new URL("/user", $page.url);
+				}
+				if (redirectUrl) {
+					goto(redirectUrl);
 				}
 			})
 			.finally(() => {
@@ -44,9 +53,9 @@
 					method: "PUT",
 					body: JSON.stringify({ accessToken })
 				}).then(() => {
-					let redirectUrl = $page.url.searchParams.get(QUERY.AFTER_LOGIN)
+					let redirectUrl = $page.url.searchParams.get(QUERY.AFTER_LOGIN);
 					if ($page.url.pathname === "/login" || $page.url.pathname === "/signup") {
-						redirectUrl ||= new URL("/user", $page.url)
+						redirectUrl ||= new URL("/user", $page.url);
 					}
 					if (redirectUrl) {
 						goto(redirectUrl);

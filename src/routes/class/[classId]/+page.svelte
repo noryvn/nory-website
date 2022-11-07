@@ -14,8 +14,8 @@
 
 <main class="flex-auto">
 	<div class="p-4">
-		<h1 class="text-5xl capitalize"> {$page.data.info.name} </h1>
-		<p> {$page.data.info.description} </p>
+		<h1 class="text-5xl capitalize">{$page.data.info.name}</h1>
+		<p>{$page.data.info.description}</p>
 	</div>
 
 	<div class="tabs">
@@ -37,11 +37,11 @@
 
 	{#if selected === "task"}
 		<div class="px-4 flex flex-col">
-			<h2 class="mt-4 text-3xl"> Tugas Baru </h2>
+			<h2 class="mt-4 text-3xl">Tugas Baru</h2>
 			<CreateTaskForm />
-			<div class="divider"></div>
-			<h2 class="mt-4 text-3xl"> Daftar Tugas </h2>
-			<ClassTaskTable tasks={$page.data.task} class="-mx-4"/>
+			<div class="divider" />
+			<h2 class="mt-4 text-3xl">Daftar Tugas</h2>
+			<ClassTaskTable tasks={$page.data.task} class="-mx-4" />
 		</div>
 	{:else if selected === "member"}
 		<div class="px-4 flex flex-col">

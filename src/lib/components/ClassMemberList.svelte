@@ -1,68 +1,66 @@
 <script lang="ts">
-	import type { ClassMember } from "$lib/nory"
-	import { noryClient } from "$lib/nory"
-	import { page } from "$app/stores"
-	import { invalidateAll } from "$app/navigation"
-	import Icon from "@iconify/svelte"
+	import type { ClassMember } from "$lib/nory";
+	import { noryClient } from "$lib/nory";
+	import { page } from "$app/stores";
+	import { invalidateAll } from "$app/navigation";
+	import Icon from "@iconify/svelte";
 
-	export let members: ClassMember[]
+	export let members: ClassMember[];
 
-	let i = 1108
+	let i = 1108;
 	const levelCompare = {
 		owner: i--,
 		member: i--,
-		admin: i--,
-	}
+		admin: i--
+	};
 
-	$: m = Array
-		.from(members)
-		.sort((a, b) => levelCompare[b.level] - levelCompare[a.level])
+	$: m = Array.from(members).sort((a, b) => levelCompare[b.level] - levelCompare[a.level]);
 
-	let loading = false
-	let error: null | Error = null
+	let loading = false;
+	let error: null | Error = null;
 	function removeUser(userId: string) {
 		return async () => {
 			try {
-				loading = true
-				error = null
-				await noryClient.removeClassMember($page.params.classId, userId)
-				await invalidateAll()
+				loading = true;
+				error = null;
+				await noryClient.removeClassMember($page.params.classId, userId);
+				await invalidateAll();
 			} catch (e) {
-				error = e
+				error = e;
 			} finally {
-				loading = false
+				loading = false;
 			}
-		}
+		};
 	}
 
 	function setAdmin(userId: string) {
 		return async () => {
 			try {
-				loading = true
-				error = null
-				await noryClient.updateClassMember($page.params.classId, userId, { level: "admin" })
-				await invalidateAll()
+				loading = true;
+				error = null;
+				await noryClient.updateClassMember($page.params.classId, userId, { level: "admin" });
+				await invalidateAll();
 			} catch (e) {
-				error = e
+				error = e;
 			} finally {
-				loading = false
+				loading = false;
 			}
-		}
+		};
 	}
 
 	function setMember(userId: string) {
 		return async () => {
 			try {
-				loading = true
-				error = null
-				await noryClient.updateClassMember($page.params.classId, userId, { level: "member" })
-				await invalidateAll()
+				loading = true;
+				error = null;
+				await noryClient.updateClassMember($page.params.classId, userId, { level: "member" });
+				await invalidateAll();
 			} catch (e) {
-				error = e
+				error = e;
 			} finally {
-				loading = false
+				loading = false;
 			}
-		}
+		};
 	}
 </script>
 
@@ -75,7 +73,7 @@
 	<table class="table w-full">
 		<thead>
 			<tr>
-				<th></th>
+				<th />
 				<th> Username </th>
 				<th> Level </th>
 				<th> Aksi </th>
@@ -85,12 +83,12 @@
 			{#each m as member, i (member.userId)}
 				<tr>
 					<th> {i + 1}.</th>
-					<th class="flex items-center gap-2"> 
+					<th class="flex items-center gap-2">
 						<div class="avatar">
 							<div class="h-12 rounded-full">
 								<img
-									alt="{member.userId} profile" 
-									src="//kucing.falentio.com/seed/{member.userId}/150" 
+									alt="{member.userId} profile"
+									src="//kucing.falentio.com/seed/{member.userId}/150"
 								/>
 							</div>
 						</div>
@@ -105,24 +103,30 @@
 					<th> {member.level} </th>
 					<th>
 						<div>
-							<button 
+							<button
 								disabled={member.level === "owner"}
 								on:click={removeUser(member.userId)}
-								class:loading={loading}
+								class:loading
 								class="btn btn-primary btn-sm"
-							> Kick </button>
-							<button 
-								disabled={member.level === "owner" || member.level === "member" }
+							>
+								Kick
+							</button>
+							<button
+								disabled={member.level === "owner" || member.level === "member"}
 								on:click={setMember(member.userId)}
-								class:loading={loading}
+								class:loading
 								class="btn btn-primary btn-sm"
-							> Member </button>
-							<button 
+							>
+								Demote
+							</button>
+							<button
 								disabled={member.level === "owner" || member.level === "admin"}
 								on:click={setAdmin(member.userId)}
-								class:loading={loading}
+								class:loading
 								class="btn btn-primary btn-sm"
-							> Admin </button>
+							>
+								Promote
+							</button>
 						</div>
 					</th>
 				</tr>

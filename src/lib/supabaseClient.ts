@@ -6,7 +6,7 @@ const supabaseKey = env.PUBLIC_SUPABASE_KEY;
 const supabaseOptions = {
 	auth: {
 		autoRefreshToken: true,
-		persistStore: true
+		parsistSession: true
 	}
 } as const;
 

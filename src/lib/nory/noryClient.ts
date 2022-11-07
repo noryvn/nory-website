@@ -1,3 +1,5 @@
+import QuickLRU from "quick-lru";
+
 export interface UserStatistics {
 	joinedClass: number;
 	ownedClass: number;
@@ -29,17 +31,17 @@ export interface ClassTask {
 	authorId: string;
 	createdAt: Date | string;
 
-	authorDisplayName: string
+	authorDisplayName: string;
 	name: string;
 	description: string;
 	dueDate: Date | string;
 }
 
 export interface ClassMember {
-	classId: string
-	userId: string
+	classId: string;
+	userId: string;
 
-	level: string
+	level: string;
 }
 
 export interface NoryResponse<Data> {
@@ -63,10 +65,7 @@ export interface NoryRequestInit extends RequestInit {
 }
 
 export class NoryClient {
-	constructor(
-		public endpoint: string,
-		public accessToken: string | null,
-	) {}
+	constructor(public endpoint: string, public accessToken: string | null) {}
 
 	async fetch<Data>(init: NoryRequestInit): Promise<NoryResponse<Data>> {
 		const url = new URL(init.path, this.endpoint);
@@ -134,38 +133,45 @@ export class NoryClient {
 	}
 
 	getClassInfo(classId: string) {
-		return this.fetch<Class>({ path: `/class/${classId}/info` });
+		return this.fetch<Class>({
+			path: `/class/${classId}/info`
+		});
 	}
 
 	getClassTask(classId: string) {
-		return this.fetch<ClassTask[]>({ path: `/class/${classId}/task` });
+		return this.fetch<ClassTask[]>({
+			path: `/class/${classId}/task`
+		});
 	}
 
 	getClassMember(classId: string) {
-		return this.fetch<ClassMember[]>({ path: `/class/${classId}/member` });
+		return this.fetch<ClassMember[]>({
+			path: `/class/${classId}/member`,
+			lru: true
+		});
 	}
 
 	addClassMember(classId: string, username: string) {
-		return this.fetch<null>({ 
+		return this.fetch<null>({
 			path: `/class/${classId}/member`,
 			method: "POST",
-			json: { username },
-		})
+			json: { username }
+		});
 	}
 
 	updateClassMember(classId: string, memberId: string, member: { level: string }) {
 		return this.fetch<null>({
 			path: `/class/${classId}/member/${memberId}`,
 			method: "PATCH",
-			json: member,
-		})
+			json: member
+		});
 	}
 
 	removeClassMember(classId: string, memberId: string) {
 		return this.fetch<null>({
 			path: `/class/${classId}/member/${memberId}`,
-			method: "DELETE",
-		})
+			method: "DELETE"
+		});
 	}
 
 	createClassTask(task: { classId: string; name: string; dueDate: Date; description: string }) {
@@ -173,6 +179,13 @@ export class NoryClient {
 			path: `/class/${task.classId}/task`,
 			method: "POST",
 			json: task
+		});
+	}
+
+	deleteClassTask(classId: string, taskId: string) {
+		return this.fetch<null>({
+			path: `/class/${classId}/task/${taskId}`,
+			method: "DELETE"
 		});
 	}
 }

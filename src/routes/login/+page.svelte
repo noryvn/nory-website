@@ -3,12 +3,12 @@
 	import { page } from "$app/stores";
 	import { supabaseClient } from "$lib/supabaseClient";
 	import { QUERY } from "$lib/constant";
-	import { goto } from "$app/navigation"
+	import { goto } from "$app/navigation";
 
 	let email: string;
 	let password: string;
 	let loading = false;
-	let error: Error | null = null
+	let error: Error | null = null;
 	$: disabled = loading || !email || !password || password?.length < 8;
 
 	async function login() {
@@ -19,7 +19,7 @@
 				password
 			});
 			error = e;
-			let redirectUrl = $page.url.searchParams.get(QUERY.AFTER_LOGIN) || "/user"
+			let redirectUrl = $page.url.searchParams.get(QUERY.AFTER_LOGIN) || "/user";
 			if (redirectUrl) {
 				goto(redirectUrl);
 			}
@@ -36,8 +36,8 @@
 			class="w-[40rem] max-w-sm bg-base-100 border-base-content border p-8 rounded-xl flex flex-col"
 		>
 			<div class="text-center">
-				<h1 class="font-bold text-4xl"> Login </h1>
-				<p> Silahkan masukkan email dan password mu </p>
+				<h1 class="font-bold text-4xl">Login</h1>
+				<p>Silahkan masukkan email dan password mu</p>
 			</div>
 			<form class="form-control">
 				<label class="label">
@@ -66,14 +66,14 @@
 					Belum punya akun?
 					<a href="/signup" class="link link-primary"> Signup </a>
 				</p>
-				<button 
-					type="button" 
-					class="btn btn-primary" 
+				<button
+					type="button"
+					class="btn btn-primary"
 					on:click={() => login()}
-					class:loading 
+					class:loading
 					{disabled}
-				> 
-					Login 
+				>
+					Login
 				</button>
 			</div>
 			{#if error}

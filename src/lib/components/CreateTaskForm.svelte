@@ -11,6 +11,7 @@
 	let message = "";
 	let name = "";
 	let description = "";
+	let authorDisplayName = "";
 	let dueDate = "2005-08-11";
 	$: disabled = loading || name === "" || description === "";
 
@@ -20,12 +21,13 @@
 			message = "";
 			loading = true;
 			if (dueDate === "2005-08-11") {
-				throw new Error("Hei, ini tanggal apa?")
+				throw new Error("Hei, ini tanggal apa?");
 			}
 
 			await noryClient.createClassTask({
 				name,
 				description,
+				authorDisplayName,
 				dueDate: new Date(dueDate),
 				classId: $page.params.classId
 			});
@@ -56,6 +58,26 @@
 		bind:value={name}
 	/>
 
+	<label for="task-name-input" class="label">
+		<span class="label-text"> Nama Pembuat </span>
+	</label>
+	<div class="input-group">
+		<input
+			id="task-name-input"
+			type="text"
+			name="author-display-name"
+			class="input input-bordered grow"
+			bind:value={authorDisplayName}
+		/>
+		<button
+			type="button"
+			class="btn btn-warning"
+			on:click={() => authorDisplayName = ""}
+		>
+			hapus
+		</button>
+	</div>
+
 	<label for="task-dueDate-input" class="label">
 		<span class="label-text"> Tenggat </span>
 	</label>
@@ -67,11 +89,7 @@
 			class="input input-bordered grow"
 			bind:value={dueDate}
 		/>
-		<button 
-			type="button" 
-			class="btn btn-primary" 
-			on:click={() => (dueDate = currentDate)}
-		>
+		<button type="button" class="btn btn-primary" on:click={() => (dueDate = currentDate)}>
 			reset
 		</button>
 	</div>
@@ -81,7 +99,7 @@
 	</label>
 	<textarea
 		id="task-description-input"
-		class="textarea textarea-bordered h-36"
+		class="textarea textarea-bordered h-48"
 		name="description"
 		bind:value={description}
 	/>

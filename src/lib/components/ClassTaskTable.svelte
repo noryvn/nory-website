@@ -1,12 +1,17 @@
 <script lang="ts">
+	import { invalidateAll } from "$app/navigation";
+	import { page } from "$app/stores";
 	import type { ClassTask } from "$lib/nory";
+	import { noryClient } from "$lib/nory";
 	import Icon from "@iconify/svelte";
 
 	export let tasks: ClassTask[] = [];
 	let asc = false;
 	let field = "name";
 
-	$: t = Array.from(tasks).sort(sorter(field, asc));
+	$: t = Array.from(tasks)
+		.sort((a, b) => a.dueDate - b.dueDate)
+		.sort(sorter(field, asc));
 
 	function sorter(field: string, asc: boolean) {
 		return (a: ClassTask, b: ClassTask) => {
@@ -34,12 +39,49 @@
 		description: "deskripsi",
 		name: "nama"
 	};
+
+	let loading = false;
+	let error: Error | null = null;
+	let prepDelete = "";
+	let success = false;
+	function deleteTask(taskId: string) {
+		return async () => {
+			if (prepDelete !== taskId) {
+				prepDelete = taskId;
+				return;
+			}
+			try {
+				loading = true;
+				success = false;
+				error = null;
+
+				await noryClient.deleteClassTask($page.params.classId, taskId);
+				await invalidateAll();
+
+				success = true;
+			} catch (e) {
+				error = e;
+			} finally {
+				loading = false;
+			}
+		};
+	}
 </script>
 
 <div class={$$props.class}>
 	<span class="p-4 w-full">
 		Di Urutkan berdasarkan {fieldText[field]} secara {asc ? "ascending" : "descending"}
 	</span>
+	<div class="p-4">
+		{#if success}
+			<div class="alert alert-info">Berhasil menghapus tugas</div>
+		{/if}
+		{#if error}
+			<div class="alert alert-error">
+				{error.message}
+			</div>
+		{/if}
+	</div>
 	<div class="overflow-x-auto">
 		<table class="table table-zebra w-full table-compact">
 			<thead>
@@ -81,6 +123,33 @@
 							{/if}
 						</div>
 					</th>
+					<th>
+						<div class="flex flex-row gap-2 items-center">
+							<button on:click={() => sorterSwitch("authorDisplayName")}> Pembuat </button>
+							{#if field === "authorDisplayName"}
+								{#if asc}
+									<Icon icon="ph:arrow-up" />
+								{:else}
+									<Icon icon="ph:arrow-down" />
+								{/if}
+							{/if}
+						</div>
+					</th>
+					<th>
+						<div class="flex flex-row gap-2 items-center">
+							<button on:click={() => sorterSwitch("authorId")}> Id Pembuat </button>
+							{#if field === "authorId"}
+								{#if asc}
+									<Icon icon="ph:arrow-up" />
+								{:else}
+									<Icon icon="ph:arrow-down" />
+								{/if}
+							{/if}
+						</div>
+					</th>
+					<th>
+						<span> Aksi </span>
+					</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -88,9 +157,24 @@
 					<tr>
 						<th> {i + 1}. </th>
 						<th> {task.name} </th>
-						<th class="w-max"> {new Date(task.dueDate).toLocaleDateString("en-GB")} </th>
+						<th> {new Date(task.dueDate).toLocaleDateString("en-GB")} </th>
 						<th class="break-all whitespace-pre">
 							{task.description}
+							<div class="w-36" />
+						</th>
+						<th> {task.authorDisplayName} </th>
+						<th> {task.authorId} </th>
+						<th>
+							<div class="flex flex-row w-full">
+								<button
+									class="btn btn-sm btn-warning"
+									class:loading={loading && task.taskId === prepDelete}
+									disabled={loading}
+									on:click={deleteTask(task.taskId)}
+								>
+									{prepDelete === task.taskId ? "Yakin" : "Hapus"}
+								</button>
+							</div>
 						</th>
 					</tr>
 				{/each}

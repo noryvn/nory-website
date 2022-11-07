@@ -46,7 +46,7 @@
 				{#each members as m (m.classId)}
 					<div class="card card-bordered bg-base-300 shadow">
 						<div class="card-body">
-							<span class="card-title"> 
+							<span class="card-title">
 								{#await noryClient.getClassInfo(m.classId)}
 									{m.classId}
 								{:then { data: c }}

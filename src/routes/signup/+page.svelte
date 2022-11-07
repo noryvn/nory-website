@@ -8,9 +8,10 @@
 	let password: string;
 	let passwordCheck: string;
 	let loading = false;
-	let error = null
-	$: passwordNotMatch = password !== passwordCheck && password && passwordCheck
-	$: disabled = loading || !email || !password || !passwordCheck || passwordNotMatch || password?.length < 8;
+	let error = null;
+	$: passwordNotMatch = password !== passwordCheck && password && passwordCheck;
+	$: disabled =
+		loading || !email || !password || !passwordCheck || passwordNotMatch || password?.length < 8;
 
 	async function signup() {
 		try {
@@ -35,8 +36,8 @@
 			class="w-[40rem] max-w-sm bg-base-100 border-base-content border p-8 rounded-xl flex flex-col"
 		>
 			<div class="text-center">
-				<h1 class="font-bold text-4xl"> Sign Up </h1>
-				<p> Silahkan masukkan email dan password mu </p>
+				<h1 class="font-bold text-4xl">Sign Up</h1>
+				<p>Silahkan masukkan email dan password mu</p>
 			</div>
 			<form class="form-control">
 				<label class="label">
@@ -70,9 +71,7 @@
 					class="input input-bordered"
 				/>
 				{#if passwordNotMatch}
-					<div class="text-error mt-2">
-						Password yang kakak masukan tidak sama
-					</div>
+					<div class="text-error mt-2">Password yang kakak masukan tidak sama</div>
 				{/if}
 			</form>
 			<div class="flex flex-row flex-wrap justify-end pt-2">
@@ -80,14 +79,14 @@
 					Sudah punya akun?
 					<a href="/login" class="link link-primary"> login </a>
 				</p>
-				<button 
-					type="button" 
-					class="btn btn-primary" 
+				<button
+					type="button"
+					class="btn btn-primary"
 					on:click={() => signup()}
-					class:loading 
+					class:loading
 					{disabled}
-				> 
-					Signup 
+				>
+					Signup
 				</button>
 			</div>
 		</div>
