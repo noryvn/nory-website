@@ -65,7 +65,13 @@ export interface NoryRequestInit extends RequestInit {
 }
 
 export class NoryClient {
-	constructor(public endpoint: string, public accessToken: string | null) {}
+	endpoint: string
+	accessToken: string | null
+	
+	constructor(endpoint: string, accessToken: string | null) {
+		this.endpoint = endpoint
+		this.accessToken = accessToken
+	}
 
 	async fetch<Data>(init: NoryRequestInit): Promise<NoryResponse<Data>> {
 		const url = new URL(init.path, this.endpoint);

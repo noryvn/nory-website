@@ -38,7 +38,7 @@
 	<section class="my-4 p-4">
 		{#if selected === "class"}
 			<div class="w-full flex flex-row justify-between">
-				<h2>Daftar Kelas:</h2>
+				<h2> Daftar Kelas: </h2>
 				<a href="{$page.url.href}/new-class" class="btn btn-primary btn-sm"> Buat Kelas </a>
 			</div>
 

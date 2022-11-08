@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ClassMember } from "$lib/nory";
-	import { noryClient } from "$lib/nory";
+	import { noryClient, user } from "$lib/nory";
 	import { page } from "$app/stores";
 	import { invalidateAll } from "$app/navigation";
 	import Icon from "@iconify/svelte";
@@ -14,7 +14,21 @@
 		admin: i--
 	};
 
-	$: m = Array.from(members).sort((a, b) => levelCompare[b.level] - levelCompare[a.level]);
+	$: m = Array
+		.from(members)
+		.sort((a, b) => {
+			// sort using level
+			return levelCompare[b.level] - levelCompare[a.level]
+		})
+		.sort((a, b) => {
+			// move self to first place
+			if (a.userId === $user?.userId) {
+				return -1
+			}
+			if (b.userId === $user?.userId) {
+				return 1
+			}
+		})
 
 	let loading = false;
 	let error: null | Error = null;
@@ -81,7 +95,10 @@
 		</thead>
 		<tbody>
 			{#each m as member, i (member.userId)}
-				<tr>
+				{@const self = $user?.userId === member.userId}
+				<tr 
+					class:active={self}
+				>
 					<th> {i + 1}.</th>
 					<th class="flex items-center gap-2">
 						<div class="avatar">
@@ -92,13 +109,17 @@
 								/>
 							</div>
 						</div>
-						{#await noryClient.getProfileById(member.userId)}
-							<span class="w-36"> Loading... </span>
-						{:then { data: user }}
-							<span> {user.name} </span>
-						{:catch e}
-							<span class="text-error"> Error: {e.message} </span>
-						{/await}
+						{#if self}
+							<span> Kamu </span>
+						{:else}
+							{#await noryClient.getProfileById(member.userId)}
+								<span class="w-36"> Loading... </span>
+							{:then { data: user }}
+								<span> {user.name} </span>
+							{:catch e}
+								<span class="text-error"> Error: {e.message} </span>
+							{/await}
+						{/if}
 					</th>
 					<th> {member.level} </th>
 					<th>
@@ -109,10 +130,10 @@
 								class:loading
 								class="btn btn-primary btn-sm"
 							>
-								Kick
+								{self ? "Keluar" : "Kick"}
 							</button>
 							<button
-								disabled={member.level === "owner" || member.level === "member"}
+								disabled={self || member.level === "owner" || member.level === "member"}
 								on:click={setMember(member.userId)}
 								class:loading
 								class="btn btn-primary btn-sm"
@@ -120,7 +141,7 @@
 								Demote
 							</button>
 							<button
-								disabled={member.level === "owner" || member.level === "admin"}
+								disabled={self || member.level === "owner" || member.level === "admin"}
 								on:click={setAdmin(member.userId)}
 								class:loading
 								class="btn btn-primary btn-sm"

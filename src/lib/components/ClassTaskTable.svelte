@@ -86,7 +86,6 @@
 		<table class="table table-zebra w-full table-compact">
 			<thead>
 				<tr>
-					<th />
 					<th>
 						<div class="flex flex-row gap-2 items-center">
 							<button on:click={() => sorterSwitch("name")}> Nama </button>
@@ -153,9 +152,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each t as task, i (task.taskId)}
+				{#each t as task (task.taskId)}
 					<tr>
-						<th> {i + 1}. </th>
 						<th> {task.name} </th>
 						<th> {new Date(task.dueDate).toLocaleDateString("en-GB")} </th>
 						<th class="break-all whitespace-pre">
@@ -172,7 +170,7 @@
 									disabled={loading}
 									on:click={deleteTask(task.taskId)}
 								>
-									{prepDelete === task.taskId ? "Yakin" : "Hapus"}
+									{prepDelete === task.taskId ? "Yakin?" : "Hapus"}
 								</button>
 							</div>
 						</th>

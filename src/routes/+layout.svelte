@@ -10,58 +10,39 @@
 	import { page } from "$app/stores";
 	import { browser } from "$app/environment";
 	import { supabaseClient } from "$lib/supabaseClient";
-	import { noryClient } from "$lib/nory";
+	import { noryClient, accessToken } from "$lib/nory";
 	import { QUERY } from "$lib/constant";
 
-	let loading = true;
-
-	if (browser) {
-		supabaseClient.auth
-			.getSession()
-			.then(async ({ data, error }) => {
-				const accessToken = data.session?.access_token || null;
-				if (!accessToken) {
-					return
-				}
-				noryClient.accessToken = accessToken;
-
-				let redirectUrl = $page.url.searchParams.get(QUERY.AFTER_LOGIN);
-				if ($page.url.pathname === "/login" || $page.url.pathname === "/signup") {
-					redirectUrl ||= new URL("/user", $page.url);
-				}
-				if (redirectUrl) {
-					goto(redirectUrl);
-				}
-			})
-			.finally(() => {
-				loading = false;
-			});
+	$: if (browser && $accessToken) {
+		setSession($accessToken)
 	}
-	supabaseClient.auth.refreshSession();
+
+	async function setSession(accessToken: string) {
+		const res = await fetch("/api/session", {
+			method: "PUT",
+			body: JSON.stringify({ accessToken })
+		})
+		if (!res.ok) {
+			// TODO: handle error
+		}
+		let redirectUrl = $page.url.searchParams.get(QUERY.AFTER_LOGIN);
+		if ($page.url.pathname === "/login" || $page.url.pathname === "/signup") {
+			redirectUrl ||= new URL("/user", $page.url);
+		}
+		if (redirectUrl) {
+			goto(redirectUrl);
+		}
+	}
+
 	onMount(() => {
 		const { data } = supabaseClient.auth.onAuthStateChange((event, session) => {
 			if (event === "SIGNED_OUT") {
-				noryClient.accessToken = null;
+				accessToken.set(null);
 				invalidateAll();
 				return;
 			}
 			if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
-				const accessToken = session.access_token;
-				noryClient.accessToken = accessToken;
-
-				fetch("/api/session", {
-					method: "PUT",
-					body: JSON.stringify({ accessToken })
-				}).then(() => {
-					let redirectUrl = $page.url.searchParams.get(QUERY.AFTER_LOGIN);
-					if ($page.url.pathname === "/login" || $page.url.pathname === "/signup") {
-						redirectUrl ||= new URL("/user", $page.url);
-					}
-					if (redirectUrl) {
-						goto(redirectUrl);
-					}
-				});
-
+				accessToken.set(session.access_token)
 				return;
 			}
 		});
@@ -71,12 +52,10 @@
 	});
 </script>
 
-<div data-theme="winter">
+<div>
 	<div class="font-abel min-h-screen flex flex-col bg-base-100">
 		<NavBar />
-		{#if !loading}
-			<slot />
-		{/if}
+		<slot />
 		<Footer />
 	</div>
 </div>

@@ -8,6 +8,7 @@
 	import ClassTaskTable from "$lib/components/ClassTaskTable.svelte";
 	import ClassMemberList from "$lib/components/ClassMemberList.svelte";
 	import AddClassMemberForm from "$lib/components/AddClassMemberForm.svelte";
+	import LoginGuard from "$lib/components/LoginGuard.svelte";
 
 	let selected = "task";
 </script>
@@ -37,15 +38,19 @@
 
 	{#if selected === "task"}
 		<div class="px-4 flex flex-col">
-			<h2 class="mt-4 text-3xl">Tugas Baru</h2>
-			<CreateTaskForm />
+			<LoginGuard>
+				<h2 class="mt-4 text-3xl">Tugas Baru</h2>
+				<CreateTaskForm />
+			</LoginGuard>
 			<div class="divider" />
 			<h2 class="mt-4 text-3xl">Daftar Tugas</h2>
 			<ClassTaskTable tasks={$page.data.task} class="-mx-4" />
 		</div>
 	{:else if selected === "member"}
 		<div class="px-4 flex flex-col">
-			<AddClassMemberForm />
+			<LoginGuard>
+				<AddClassMemberForm />
+			</LoginGuard>
 			<ClassMemberList members={$page.data.member} class="-mx-4" />
 		</div>
 	{/if}

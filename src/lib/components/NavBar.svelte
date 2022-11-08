@@ -1,5 +1,7 @@
 <script lang="ts">
 	import UserProfilePreview from "$lib/components/UserProfilePreview.svelte";
+	import SwitchThemeButton from "$lib/components/SwitchThemeButton.svelte";
+	import LoginGuard from "$lib/components/LoginGuard.svelte";
 	import Icon from "@iconify/svelte";
 
 	let menu = false;
@@ -19,10 +21,15 @@
 	{#if menu}
 		<div class="navbar bg-base-100 border-base-content border-b absolute top-full left-0 z-50">
 			<div class="flex-1 flex flex-col items-start">
-				<UserProfilePreview />
+				<LoginGuard>
+					<UserProfilePreview />
+				</LoginGuard>
 				<a class="text-lg w-full" href="/user"> User </a>
 				<a class="text-lg w-full" href="/login"> Login </a>
 				<a class="text-lg w-full" href="/signup"> Signup </a>
+				<div class="w-full flex flex-row justify-end">
+					<SwitchThemeButton />
+				</div>
 			</div>
 		</div>
 	{/if}

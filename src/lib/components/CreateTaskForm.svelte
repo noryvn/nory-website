@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { ClassTask } from "$lib/nory";
-	import { noryClient } from "$lib/nory";
+	import { noryClient, user } from "$lib/nory";
 	import { page } from "$app/stores";
 	import { invalidateAll } from "$app/navigation";
-
+	
 	const currentDate = new Date().toISOString().slice(0, 10);
 
 	let loading = false;
@@ -12,6 +12,7 @@
 	let name = "";
 	let description = "";
 	let authorDisplayName = "";
+	$: authorDisplayName ||= $user?.username || ""
 	let dueDate = "2005-08-11";
 	$: disabled = loading || name === "" || description === "";
 
@@ -48,7 +49,7 @@
 
 <form class="form-control max-w-md mx-auto w-full" on:submit|preventDefault={createTask}>
 	<label for="task-name-input" class="label">
-		<span class="label-text"> Nama </span>
+		<span class="label-text"> Nama*</span>
 	</label>
 	<input
 		id="task-name-input"
@@ -58,12 +59,12 @@
 		bind:value={name}
 	/>
 
-	<label for="task-name-input" class="label">
+	<label for="task-authorDisplayName-input" class="label">
 		<span class="label-text"> Nama Pembuat </span>
 	</label>
 	<div class="input-group">
 		<input
-			id="task-name-input"
+			id="task-authorDisplayName-input"
 			type="text"
 			name="author-display-name"
 			class="input input-bordered grow"
@@ -79,7 +80,7 @@
 	</div>
 
 	<label for="task-dueDate-input" class="label">
-		<span class="label-text"> Tenggat </span>
+		<span class="label-text"> Tenggat* </span>
 	</label>
 	<div class="input-group">
 		<input
@@ -95,7 +96,7 @@
 	</div>
 
 	<label for="task-description-input" class="label">
-		<span class="label-text"> Deskripsi </span>
+		<span class="label-text"> Deskripsi* </span>
 	</label>
 	<textarea
 		id="task-description-input"
@@ -116,5 +117,6 @@
 		</div>
 	{/if}
 
+	<span> *: wajib di isi</span>
 	<button type="submit" class="btn btn-primary mt-4" class:loading {disabled}> Buat </button>
 </form>
