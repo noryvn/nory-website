@@ -9,6 +9,7 @@
 	let passwordCheck: string;
 	let loading = false;
 	let error = null;
+	let success = false
 	$: passwordNotMatch = password !== passwordCheck && password && passwordCheck;
 	$: disabled =
 		loading || !email || !password || !passwordCheck || passwordNotMatch || password?.length < 8;
@@ -16,10 +17,13 @@
 	async function signup() {
 		try {
 			loading = true;
+			success = false
 			const { data, error: e } = await supabaseClient.auth.signUp({
 				email,
 				password
 			});
+
+			success = true
 			error = e;
 		} catch (e) {
 			error = e;
@@ -88,6 +92,19 @@
 				>
 					Signup
 				</button>
+			</div>
+			<div class="py-4 flex flex-col">
+				{#if success}
+					<div class="alert alert-info">
+						Silahkan check kotak emailmu untuk melkukan konfirmasi.
+					</div>
+				{/if}
+
+				{#if error}
+					<div class="alert alert-error"> 
+						{error.message || error}
+					</div>
+				{/if}
 			</div>
 		</div>
 	</div>

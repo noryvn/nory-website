@@ -16,6 +16,15 @@
 <main class="w-full flex flex-col">
 	<div class="p-4">
 		<UserProfile {user} />
+
+	</div>
+
+	<div class="p-4">
+		{#if user.name === user.username}
+			<div class="alert alert-warning">
+				anda belum merubah username
+			</div>
+		{/if}
 	</div>
 
 	<div class="tabs">
