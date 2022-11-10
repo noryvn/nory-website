@@ -11,8 +11,11 @@
 	let message = "";
 	let name = "";
 	let description = "";
-	let authorDisplayName = "";
-	$: authorDisplayName ||= $user?.username || ""
+	let authorDisplayName = $user?.username;
+	let setAuthorDisplayName = () => authorDisplayName = $user.username
+	$: if ($user) {
+		setAuthorDisplayName()
+	}
 	let dueDate = "2005-08-11";
 	$: disabled = loading || name === "" || description === "";
 

@@ -4,5 +4,6 @@ export const load = async ({ params }) => {
 	const { data: info } = await noryClient.getClassInfo(params.classId);
 	const { data: task } = await noryClient.getClassTask(params.classId);
 	const { data: member } = await noryClient.getClassMember(params.classId);
-	return { info, task, member };
+	const { data: schedule } = await noryClient.getClassSchedule(params.classId);
+	return { info, task, member, schedule };
 };

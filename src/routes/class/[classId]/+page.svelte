@@ -7,10 +7,16 @@
 	import CreateTaskForm from "$lib/components/CreateTaskForm.svelte";
 	import ClassTaskTable from "$lib/components/ClassTaskTable.svelte";
 	import ClassMemberList from "$lib/components/ClassMemberList.svelte";
+	import ClassScheduleForm from "$lib/components/ClassScheduleForm.svelte";
+	import ClassScheduleTable from "$lib/components/ClassScheduleTable.svelte";
 	import AddClassMemberForm from "$lib/components/AddClassMemberForm.svelte";
 	import LoginGuard from "$lib/components/LoginGuard.svelte";
 
 	let selected = "task";
+
+	$: tasks = $page.data.task
+	$: member = $page.data.members
+	$: info = $page.data.info
 </script>
 
 <main class="flex-auto">
@@ -26,6 +32,13 @@
 			class:tab-active={selected === "task"}
 		>
 			Tugas
+		</btn>
+		<btn
+			on:click={() => (selected = "schedule")}
+			class="tab tab-bordered"
+			class:tab-active={selected === "schedule"}
+		>
+			Jadwal
 		</btn>
 		<btn
 			on:click={() => (selected = "member")}
@@ -52,6 +65,13 @@
 				<AddClassMemberForm />
 			</LoginGuard>
 			<ClassMemberList members={$page.data.member} class="-mx-4" />
+		</div>
+	{:else if selected === "schedule"}
+		<div class="p-4 flex flex-col">
+			<LoginGuard>
+				<ClassScheduleForm />
+			</LoginGuard>
+			<ClassScheduleTable schedule={$page.data.schedule} />
 		</div>
 	{/if}
 </main>

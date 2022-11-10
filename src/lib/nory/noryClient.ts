@@ -44,6 +44,18 @@ export interface ClassMember {
 	level: string;
 }
 
+export interface ClassSchedule {
+	scheduleId: string
+	classId: string
+	authorId: string
+	createdAt: string
+
+	name: string
+	startAt: Date | string
+	duration: number
+	day: number
+}
+
 export interface NoryResponse<Data> {
 	code: number;
 	message?: string;
@@ -62,18 +74,34 @@ export class NoryError extends Error {
 export interface NoryRequestInit extends RequestInit {
 	path: string;
 	json?: unknown;
+	lru?: boolean
 }
 
 export class NoryClient {
 	endpoint: string
 	accessToken: string | null
+	lru: QuickLRU<string, NoryResponse<any>> | null
 	
-	constructor(endpoint: string, accessToken: string | null) {
+	constructor(endpoint: string, accessToken: string | null, cache = false) {
 		this.endpoint = endpoint
 		this.accessToken = accessToken
+		this.lru = null
+		if (cache) {
+			this.lru = new QuickLRU<string, NoryResponse<any>>({
+				maxSize: 11_08,
+			})
+		}
 	}
 
 	async fetch<Data>(init: NoryRequestInit): Promise<NoryResponse<Data>> {
+		init.method ||= "GET"
+		if (this.lru && init.lru && init.method === "GET") {
+			const body = this.lru.get(init.path)
+			if (body) {
+				return body
+			}
+		}
+
 		const url = new URL(init.path, this.endpoint);
 		init.headers = new Headers(init.headers);
 		if (this.accessToken) {
@@ -99,18 +127,35 @@ export class NoryClient {
 			throw new NoryError(body);
 		}
 
+		if (this.lru && init.lru && init.method === "GET") {
+			this.lru.set(init.path, body)
+		}
+
 		return body;
 	}
 
+	invalidate(paths: string[]) {
+		for (const key of paths) {
+			this.lru?.delete(key)
+		}
+	}
+
 	getClasses() {
-		return this.fetch<Class[]>({ path: "/user/class" });
+		return this.fetch<Class[]>({ 
+			path: "/user/class",
+			lru: true,
+		});
 	}
 
 	getJoinedClasses() {
-		return this.fetch<ClassMember[]>({ path: "/user/joined" });
+		return this.fetch<ClassMember[]>({ 
+			path: "/user/joined",
+			lru: true,
+		});
 	}
 
 	createClass(c: Omit<Class, "createdAt" | "classId" | "ownerId">) {
+		this.invalidate(["/user/joined", "/user/class"])
 		return this.fetch<null>({
 			path: "/class/create",
 			method: "POST",
@@ -118,35 +163,45 @@ export class NoryClient {
 		});
 	}
 
-	getProfile(path = "/user/profile") {
-		return this.fetch<User>({ path });
+	getProfile() {
+		return this.fetch<User>({
+			path:  "/user/profile",
+		});
 	}
 
 	getProfileById(userId: string) {
-		return this.getProfile(`/user/id/${userId}/profile`);
+		return this.fetch<User>({
+			path:  `/user/id/${userId}/profile`,
+			lru: true,
+		});
 	}
 
 	getProfileByUsername(username: string) {
-		return this.getProfile(`/user/username/${username}/profile`);
+		return this.fetch<User>({
+			path: `/user/username/${username}/profile`,
+			lru: true,
+		});
 	}
 
 	updateProfile(user: { username?: string; name?: string }) {
 		return this.fetch<null>({
 			path: "/user/profile",
 			method: "PATCH",
-			json: user
+			json: user,
 		});
 	}
 
 	getClassInfo(classId: string) {
 		return this.fetch<Class>({
-			path: `/class/${classId}/info`
+			path: `/class/${classId}/info`,
+			lru: true
 		});
 	}
 
 	getClassTask(classId: string) {
 		return this.fetch<ClassTask[]>({
-			path: `/class/${classId}/task`
+			path: `/class/${classId}/task`,
+			lru: true
 		});
 	}
 
@@ -158,40 +213,69 @@ export class NoryClient {
 	}
 
 	addClassMember(classId: string, username: string) {
+		this.invalidate([`/class/${classId}/member`])
 		return this.fetch<null>({
 			path: `/class/${classId}/member`,
 			method: "POST",
-			json: { username }
+			json: { username },
 		});
 	}
 
 	updateClassMember(classId: string, memberId: string, member: { level: string }) {
+		this.invalidate([`/class/${classId}/member`])
 		return this.fetch<null>({
 			path: `/class/${classId}/member/${memberId}`,
 			method: "PATCH",
-			json: member
+			json: member,
 		});
 	}
 
 	removeClassMember(classId: string, memberId: string) {
+		this.invalidate([`/class/${classId}/member`])
 		return this.fetch<null>({
 			path: `/class/${classId}/member/${memberId}`,
-			method: "DELETE"
+			method: "DELETE",
 		});
 	}
 
 	createClassTask(task: { classId: string; name: string; dueDate: Date; description: string }) {
+		this.invalidate([`/class/${task.classId}/task`])
 		return this.fetch<null>({
 			path: `/class/${task.classId}/task`,
 			method: "POST",
-			json: task
+			json: task,
 		});
 	}
 
 	deleteClassTask(classId: string, taskId: string) {
+		this.invalidate([`/class/${classId}/task`])
 		return this.fetch<null>({
 			path: `/class/${classId}/task/${taskId}`,
-			method: "DELETE"
+			method: "DELETE",
 		});
+	}
+
+	createClassSchedule(schedule: { classId: string; name: string; startAt: string; day: number; duration: number}) {
+		this.invalidate([`/class/${schedule.classId}/schedule`])
+		return this.fetch<null>({
+			path: `/class/${schedule.classId}/schedule`,
+			method: "POST",
+			json: schedule,
+		})
+	}
+
+	getClassSchedule(classId: string) {
+		return this.fetch<ClassSchedule[]>({
+			path: `/class/${classId}/schedule`,
+			lru: true,
+		})
+	}
+
+	deleteClassSchedule(classId: string, scheduleId: string) {
+		this.invalidate([`/class/${classId}/schedule`])
+		return this.fetch<null>({
+			path: `/class/${classId}/schedule/${scheduleId}`,
+			method: "DELETE",
+		})
 	}
 }

@@ -17,9 +17,9 @@
 		return (a: ClassTask, b: ClassTask) => {
 			let greater = a[field] > b[field];
 			if (typeof a[field] === "string") {
-				greater = a[field].localeCompare(b[field]) != -1;
+				greater = a[field].localeCompare(b[field]) !== -1;
 			}
-			if (asc) {
+			if (!asc) {
 				greater = !greater;
 			}
 			return greater ? 1 : -1;
@@ -30,7 +30,7 @@
 		if (field === f) {
 			return (asc = !asc);
 		}
-		asc = false;
+		asc = true;
 		field = f;
 	}
 
@@ -91,9 +91,9 @@
 							<button on:click={() => sorterSwitch("name")}> Nama </button>
 							{#if field === "name"}
 								{#if asc}
-									<Icon icon="ph:arrow-up" />
-								{:else}
 									<Icon icon="ph:arrow-down" />
+								{:else}
+									<Icon icon="ph:arrow-up" />
 								{/if}
 							{/if}
 						</div>
@@ -103,9 +103,9 @@
 							<button on:click={() => sorterSwitch("dueDate")}> Tenggat </button>
 							{#if field === "dueDate"}
 								{#if asc}
-									<Icon icon="ph:arrow-up" />
-								{:else}
 									<Icon icon="ph:arrow-down" />
+								{:else}
+									<Icon icon="ph:arrow-up" />
 								{/if}
 							{/if}
 						</div>
@@ -115,9 +115,9 @@
 							<button on:click={() => sorterSwitch("description")}> Deskripsi </button>
 							{#if field === "description"}
 								{#if asc}
-									<Icon icon="ph:arrow-up" />
-								{:else}
 									<Icon icon="ph:arrow-down" />
+								{:else}
+									<Icon icon="ph:arrow-up" />
 								{/if}
 							{/if}
 						</div>
@@ -127,9 +127,9 @@
 							<button on:click={() => sorterSwitch("authorDisplayName")}> Pembuat </button>
 							{#if field === "authorDisplayName"}
 								{#if asc}
-									<Icon icon="ph:arrow-up" />
-								{:else}
 									<Icon icon="ph:arrow-down" />
+								{:else}
+									<Icon icon="ph:arrow-up" />
 								{/if}
 							{/if}
 						</div>
@@ -139,9 +139,9 @@
 							<button on:click={() => sorterSwitch("authorId")}> Id Pembuat </button>
 							{#if field === "authorId"}
 								{#if asc}
-									<Icon icon="ph:arrow-up" />
-								{:else}
 									<Icon icon="ph:arrow-down" />
+								{:else}
+									<Icon icon="ph:arrow-up" />
 								{/if}
 							{/if}
 						</div>

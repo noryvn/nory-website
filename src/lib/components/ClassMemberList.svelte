@@ -18,7 +18,7 @@
 		.from(members)
 		.sort((a, b) => {
 			// sort using level
-			return levelCompare[b.level] - levelCompare[a.level]
+			return levelCompare[a.level] - levelCompare[b.level]
 		})
 		.sort((a, b) => {
 			// move self to first place
@@ -28,6 +28,7 @@
 			if (b.userId === $user?.userId) {
 				return 1
 			}
+			return 0
 		})
 
 	let loading = false;
@@ -115,7 +116,7 @@
 							{#await noryClient.getProfileById(member.userId)}
 								<span class="w-36"> Loading... </span>
 							{:then { data: user }}
-								<span> {user.name} </span>
+								<span> {user.username} </span>
 							{:catch e}
 								<span class="text-error"> Error: {e.message} </span>
 							{/await}

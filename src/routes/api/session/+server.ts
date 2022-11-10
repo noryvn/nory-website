@@ -1,4 +1,5 @@
 import { COOKIE } from "$lib/constant";
+import { dev } from "$app/environment"
 
 export const PUT = async ({ cookies, request }) => {
 	const { accessToken } = await request.json();
@@ -7,8 +8,7 @@ export const PUT = async ({ cookies, request }) => {
 	}
 	cookies.set(COOKIE.ACCESS_TOKEN, accessToken, {
 		httpOnly: true,
-		maxAge: 7200,
-		secure: false,
+		secure: !dev,
 		path: "/"
 	});
 	return new Response("ok");
