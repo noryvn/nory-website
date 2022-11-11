@@ -83,7 +83,7 @@
 			<div class="card-actions justify-end">
 				<a
 					rel="noreferrer"
-					href="https://github.com/noryvn/nory"
+					href=""
 					target="_blank"
 					class="btn btn-primary btn-sm"
 				>
