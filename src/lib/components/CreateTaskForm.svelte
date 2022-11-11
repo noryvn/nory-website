@@ -16,7 +16,7 @@
 	$: if ($user) {
 		setAuthorDisplayName()
 	}
-	let dueDate = "2005-08-11";
+	let dueDate = "2021-01-01";
 	$: disabled = loading || name === "" || description === "";
 
 	async function createTask() {
