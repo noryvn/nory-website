@@ -73,6 +73,7 @@ export class NoryError extends Error {
 
 export interface NoryRequestInit extends RequestInit {
 	path: string;
+	searchParams?: Record<string, string>
 	json?: unknown;
 	lru?: boolean
 }
@@ -89,6 +90,7 @@ export class NoryClient {
 		if (cache) {
 			this.lru = new QuickLRU<string, NoryResponse<any>>({
 				maxSize: 11_08,
+				maxAge: 300,
 			})
 		}
 	}
@@ -103,6 +105,11 @@ export class NoryClient {
 		}
 
 		const url = new URL(init.path, this.endpoint);
+		if (init.searchParams) {
+			for (const [k, v] of Object.entries(init.searchParams)) {
+				url.searchParams.set(k, v)
+			}
+		}
 		init.headers = new Headers(init.headers);
 		if (this.accessToken) {
 			init.headers.set("authorization", `Bearer ${this.accessToken}`);
@@ -145,6 +152,14 @@ export class NoryClient {
 			path: "/user/class",
 			lru: true,
 		});
+	}
+
+	getClassByName(ownerUsername: string, name: string) {
+		return this.fetch<Class>({
+			path: "/class/info",
+			searchParams: { ownerUsername, name },
+			lru: true,
+		})
 	}
 
 	getJoinedClasses() {
