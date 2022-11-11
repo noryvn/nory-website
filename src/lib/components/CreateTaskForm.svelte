@@ -16,7 +16,7 @@
 	$: if ($user) {
 		setAuthorDisplayName()
 	}
-	let dueDate = "2021-01-01";
+	let dueDate = new Date().toISOString().slice(0, 10);
 	$: disabled = loading || name === "" || description === "";
 
 	async function createTask() {
@@ -24,9 +24,6 @@
 			error = null;
 			message = "";
 			loading = true;
-			if (dueDate === "2005-08-11") {
-				throw new Error("Hei, ini tanggal apa?");
-			}
 
 			await noryClient.createClassTask({
 				name,
