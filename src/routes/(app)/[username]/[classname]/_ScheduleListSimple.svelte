@@ -28,7 +28,7 @@
 					<h3 class="text-xl"> {new Date(2005, 11, i + 4).toLocaleString(undefined, { weekday: "long" })} </h3>
 					<div class="overflow-x-auto h-full">
 						{#each currentSchedules as s, i}
-							<div class="flex flex-row relative">
+							<div class="flex flex-row relative text-lg">
 								<span> {s.name} </span>
 								<span class="grow"></span>
 								<span class="sticky right-0 bg-base-300 pl-2"> {s.startAt.slice(11, -4)} </span>
