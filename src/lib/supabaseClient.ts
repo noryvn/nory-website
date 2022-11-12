@@ -1,8 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
-import { env } from "$env/dynamic/public";
+import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_KEY } from "$env/static/public";
 
-const supabaseUrl = env.PUBLIC_SUPABASE_URL;
-const supabaseKey = env.PUBLIC_SUPABASE_KEY;
+const supabaseUrl = PUBLIC_SUPABASE_URL;
+const supabaseKey = PUBLIC_SUPABASE_KEY;
 const supabaseOptions = {
 	auth: {
 		autoRefreshToken: true,
