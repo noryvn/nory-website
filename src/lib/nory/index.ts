@@ -5,7 +5,7 @@ import type { User } from "./noryClient"
 import { NoryClient } from "./noryClient";
 import { supabaseClient } from "../supabaseClient"
 
-export const noryClient = new NoryClient(PUBLIC_NORY_ENDPOINT, null, true);
+export const noryClient = new NoryClient(PUBLIC_NORY_ENDPOINT, null);
 export const user = writable<User | null>(null)
 export const accessToken = writable<string | null>(null)
 export const loggedIn = derived(user, ($user) => $user !== null)

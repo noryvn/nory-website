@@ -24,15 +24,14 @@
 				classId: $page.params.classId,
 				name,
 				startAt: `2005-11-08T${startAt}:00Z`,
-				day,
+				day: parseInt(day),
 				duration,
 			})
 			await invalidateAll()
 
-			success = true
 			name = ""
 			startAt = "00:00"
-			day = -1
+			day = "-1"
 			duration = 0
 		} catch (e) {
 			error = e
@@ -64,8 +63,7 @@
 	</label>
 	<select 
 		id="day-input"
-		on:change={(e) => day = parseInt(e.target.value)}
-		value="-1"
+		bind:value={day}
 		class="input input-bordered"
 	>
 		<option value="-1" disabled> Hari </option>

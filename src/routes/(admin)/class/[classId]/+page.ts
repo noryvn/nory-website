@@ -1,9 +1,10 @@
 import { noryClient } from "$lib/nory";
 
 export const load = async ({ params }) => {
-	const { data: info } = await noryClient.getClassInfo(params.classId);
-	const { data: task } = await noryClient.getClassTask(params.classId);
-	const { data: member } = await noryClient.getClassMember(params.classId);
-	const { data: schedule } = await noryClient.getClassSchedule(params.classId);
-	return { info, task, member, schedule };
+	return {
+		info: noryClient.getClassInfo(params.classId).then(res => res.data), 
+		task: noryClient.getClassTask(params.classId).then(res => res.data), 
+		member: noryClient.getClassMember(params.classId).then(res => res.data), 
+		schedule: noryClient.getClassSchedule(params.classId).then(res => res.data),
+	};
 };

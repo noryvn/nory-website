@@ -81,28 +81,14 @@ export interface NoryRequestInit extends RequestInit {
 export class NoryClient {
 	endpoint: string
 	accessToken: string | null
-	lru: QuickLRU<string, NoryResponse<any>> | null
 	
-	constructor(endpoint: string, accessToken: string | null, cache = false) {
+	constructor(endpoint: string, accessToken: string | null) {
 		this.endpoint = endpoint
 		this.accessToken = accessToken
-		this.lru = null
-		if (cache) {
-			this.lru = new QuickLRU<string, NoryResponse<any>>({
-				maxSize: 11_08,
-				maxAge: 300,
-			})
-		}
 	}
 
 	async fetch<Data>(init: NoryRequestInit): Promise<NoryResponse<Data>> {
 		init.method ||= "GET"
-		if (this.lru && init.lru && init.method === "GET") {
-			const body = this.lru.get(init.path)
-			if (body) {
-				return body
-			}
-		}
 
 		const url = new URL(init.path, this.endpoint);
 		if (init.searchParams) {
@@ -134,23 +120,12 @@ export class NoryClient {
 			throw new NoryError(body);
 		}
 
-		if (this.lru && init.lru && init.method === "GET") {
-			this.lru.set(init.path, body)
-		}
-
 		return body;
-	}
-
-	invalidate(paths: string[]) {
-		for (const key of paths) {
-			this.lru?.delete(key)
-		}
 	}
 
 	getClasses() {
 		return this.fetch<Class[]>({ 
 			path: "/user/class",
-			lru: true,
 		});
 	}
 
@@ -158,19 +133,16 @@ export class NoryClient {
 		return this.fetch<Class>({
 			path: "/class/info",
 			searchParams: { ownerUsername, name },
-			lru: true,
 		})
 	}
 
 	getJoinedClasses() {
 		return this.fetch<ClassMember[]>({ 
 			path: "/user/joined",
-			lru: true,
 		});
 	}
 
 	createClass(c: Omit<Class, "createdAt" | "classId" | "ownerId">) {
-		this.invalidate(["/user/joined", "/user/class"])
 		return this.fetch<null>({
 			path: "/class/create",
 			method: "POST",
@@ -187,14 +159,12 @@ export class NoryClient {
 	getProfileById(userId: string) {
 		return this.fetch<User>({
 			path:  `/user/id/${userId}/profile`,
-			lru: true,
 		});
 	}
 
 	getProfileByUsername(username: string) {
 		return this.fetch<User>({
 			path: `/user/username/${username}/profile`,
-			lru: true,
 		});
 	}
 
@@ -228,7 +198,6 @@ export class NoryClient {
 	}
 
 	addClassMember(classId: string, username: string) {
-		this.invalidate([`/class/${classId}/member`])
 		return this.fetch<null>({
 			path: `/class/${classId}/member`,
 			method: "POST",
@@ -237,7 +206,6 @@ export class NoryClient {
 	}
 
 	updateClassMember(classId: string, memberId: string, member: { level: string }) {
-		this.invalidate([`/class/${classId}/member`])
 		return this.fetch<null>({
 			path: `/class/${classId}/member/${memberId}`,
 			method: "PATCH",
@@ -246,7 +214,6 @@ export class NoryClient {
 	}
 
 	removeClassMember(classId: string, memberId: string) {
-		this.invalidate([`/class/${classId}/member`])
 		return this.fetch<null>({
 			path: `/class/${classId}/member/${memberId}`,
 			method: "DELETE",
@@ -254,7 +221,6 @@ export class NoryClient {
 	}
 
 	createClassTask(task: { classId: string; name: string; dueDate: Date; description: string }) {
-		this.invalidate([`/class/${task.classId}/task`])
 		return this.fetch<null>({
 			path: `/class/${task.classId}/task`,
 			method: "POST",
@@ -263,7 +229,6 @@ export class NoryClient {
 	}
 
 	deleteClassTask(classId: string, taskId: string) {
-		this.invalidate([`/class/${classId}/task`])
 		return this.fetch<null>({
 			path: `/class/${classId}/task/${taskId}`,
 			method: "DELETE",
@@ -271,7 +236,6 @@ export class NoryClient {
 	}
 
 	createClassSchedule(schedule: { classId: string; name: string; startAt: string; day: number; duration: number}) {
-		this.invalidate([`/class/${schedule.classId}/schedule`])
 		return this.fetch<null>({
 			path: `/class/${schedule.classId}/schedule`,
 			method: "POST",
@@ -282,12 +246,10 @@ export class NoryClient {
 	getClassSchedule(classId: string) {
 		return this.fetch<ClassSchedule[]>({
 			path: `/class/${classId}/schedule`,
-			lru: true,
 		})
 	}
 
 	deleteClassSchedule(classId: string, scheduleId: string) {
-		this.invalidate([`/class/${classId}/schedule`])
 		return this.fetch<null>({
 			path: `/class/${classId}/schedule/${scheduleId}`,
 			method: "DELETE",
