@@ -4,8 +4,6 @@
 
 	export let schedules = [] as ClassSchedule[]
 	export let date = new Date()
-	date.setDate(14)
-	date.setHours(23)
 
 	$: current = getCurrent(date)
 
