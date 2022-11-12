@@ -4,6 +4,7 @@
 	import type { ClassTask } from "$lib/nory";
 	import { noryClient } from "$lib/nory";
 	import Icon from "@iconify/svelte";
+	import LoginGuard from "$lib/components/LoginGuard.svelte"
 
 	export let tasks: ClassTask[] = [];
 	let asc = false;
@@ -146,9 +147,11 @@
 							{/if}
 						</div>
 					</th>
-					<th>
-						<span> Aksi </span>
-					</th>
+					<LoginGuard>
+						<th>
+							<span> Aksi </span>
+						</th>
+					</LoginGuard>
 				</tr>
 			</thead>
 			<tbody>
@@ -162,18 +165,20 @@
 						</th>
 						<th> {task.authorDisplayName} </th>
 						<th> {task.authorId} </th>
-						<th>
-							<div class="flex flex-row w-full">
-								<button
-									class="btn btn-sm btn-warning"
-									class:loading={loading && task.taskId === prepDelete}
-									disabled={loading}
-									on:click={deleteTask(task.taskId)}
-								>
-									{prepDelete === task.taskId ? "Yakin?" : "Hapus"}
-								</button>
-							</div>
-						</th>
+						<LoginGuard>
+							<th>
+								<div class="flex flex-row w-full">
+									<button
+										class="btn btn-sm btn-warning"
+										class:loading={loading && task.taskId === prepDelete}
+										disabled={loading}
+										on:click={deleteTask(task.taskId)}
+									>
+										{prepDelete === task.taskId ? "Yakin?" : "Hapus"}
+									</button>
+								</div>
+							</th>
+						</LoginGuard>
 					</tr>
 				{/each}
 			</tbody>

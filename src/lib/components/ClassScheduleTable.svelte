@@ -4,6 +4,7 @@
 	import { noryClient } from "$lib/nory"
 	import { page } from "$app/stores"
 	import Icon from "@iconify/svelte"
+	import LoginGuard from "$lib/components/LoginGuard.svelte"
 
 	export let schedule: ClassSchedule[]
 
@@ -134,7 +135,9 @@
 						{/if}
 					</div>
 				</th>
-				<th> Aksi </th>
+				<LoginGuard>
+					<th> Aksi </th>
+				</LoginGuard>
 			</tr>
 		</thead>
 		<tbody>
@@ -151,19 +154,21 @@
 						}
 					</th>
 					<th> {schedule.duration || "-"} Menit </th>
-					<th>
-						<div class="flex flex-row">
-							<button 
-								type="button" 
-								class="btn btn-warning btn-sm"
-								class:loading={loading && deleteCandidate === schedule.scheduleId} 
-								on:click={deleteSchedule(schedule.scheduleId)}
-								disabled={loading}
-							> 
-								{ deleteCandidate === schedule.scheduleId ? "Yakin?" : "Hapus" }
-							</button>
-						</div>
-					</th>
+					<LoginGuard>
+						<th>
+							<div class="flex flex-row">
+								<button 
+									type="button" 
+									class="btn btn-warning btn-sm"
+									class:loading={loading && deleteCandidate === schedule.scheduleId} 
+									on:click={deleteSchedule(schedule.scheduleId)}
+									disabled={loading}
+								> 
+									{ deleteCandidate === schedule.scheduleId ? "Yakin?" : "Hapus" }
+								</button>
+							</div>
+						</th>
+					</LoginGuard>
 				</tr>
 			{/each}
 		</tbody>

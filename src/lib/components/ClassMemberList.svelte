@@ -4,6 +4,7 @@
 	import { page } from "$app/stores";
 	import { invalidateAll } from "$app/navigation";
 	import Icon from "@iconify/svelte";
+	import LoginGuard from "$lib/components/LoginGuard.svelte"
 
 	export let members: ClassMember[];
 
@@ -91,7 +92,9 @@
 				<th />
 				<th> Username </th>
 				<th> Level </th>
-				<th> Aksi </th>
+				<LoginGuard>
+					<th> Aksi </th>
+				</LoginGuard>
 			</tr>
 		</thead>
 		<tbody>
@@ -123,34 +126,36 @@
 						{/if}
 					</th>
 					<th> {member.level} </th>
-					<th>
-						<div>
-							<button
-								disabled={member.level === "owner"}
-								on:click={removeUser(member.userId)}
-								class:loading
-								class="btn btn-primary btn-sm"
-							>
-								{self ? "Keluar" : "Kick"}
-							</button>
-							<button
-								disabled={self || member.level === "owner" || member.level === "member"}
-								on:click={setMember(member.userId)}
-								class:loading
-								class="btn btn-primary btn-sm"
-							>
-								Demote
-							</button>
-							<button
-								disabled={self || member.level === "owner" || member.level === "admin"}
-								on:click={setAdmin(member.userId)}
-								class:loading
-								class="btn btn-primary btn-sm"
-							>
-								Promote
-							</button>
-						</div>
-					</th>
+					<LoginGuard>
+						<th>
+							<div>
+								<button
+									disabled={member.level === "owner"}
+									on:click={removeUser(member.userId)}
+									class:loading
+									class="btn btn-primary btn-sm"
+								>
+									{self ? "Keluar" : "Kick"}
+								</button>
+								<button
+									disabled={self || member.level === "owner" || member.level === "member"}
+									on:click={setMember(member.userId)}
+									class:loading
+									class="btn btn-primary btn-sm"
+								>
+									Demote
+								</button>
+								<button
+									disabled={self || member.level === "owner" || member.level === "admin"}
+									on:click={setAdmin(member.userId)}
+									class:loading
+									class="btn btn-primary btn-sm"
+								>
+									Promote
+								</button>
+							</div>
+						</th>
+					</LoginGuard>
 				</tr>
 			{/each}
 		</tbody>
