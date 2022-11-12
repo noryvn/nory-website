@@ -1,5 +1,4 @@
 import { noryClient } from "$lib/nory"
-export const prerender = "auto"
 
 export const load = async ({ params, setHeaders }) => {
 	const { data: classInfo } = await noryClient.getClassByName(params.username, params.classname)
