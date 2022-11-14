@@ -3,7 +3,7 @@
 	import ScheduleListSimple from "./_ScheduleListSimple.svelte"
 
 	export let schedules = [] as ClassSchedule[]
-	let simple = true
+	export let simple = true
 </script>
 
 {#if simple}

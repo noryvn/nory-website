@@ -2,6 +2,7 @@
 	import type { ClassSchedule } from "$lib/nory"
 
 	export let schedules = [] as ClassSchedule[]
+	export let date = new Date()
 
 	$: schedulesByDay = getSchedulesByDay(schedules)
 
@@ -16,27 +17,47 @@
 		return byDay
 	}
 
+	function fillSchedules(schedules: ClassSchedule[]): (ClassSchedule | null)[] {
+		return Array.from({ length: 5 }).map((_, i) => schedules[i] || null)
+	}
 </script>
 
-<div class="grid grid-cols-2 gap-2 max-w-md xl:max-w-lg mx-auto w-full">
+<div class="grid grid-cols-2 gap-4 w-full">
 	{#each schedulesByDay as currentSchedules, i}
-		{#if currentSchedules.length}
-			<div 
-				class="card card-compact bg-base-300 text-base-content min-h-[12rem]"
-			>
-				<div class="card-body">
-					<h3 class="text-xl"> {new Date(2005, 11, i + 4).toLocaleString(undefined, { weekday: "long" })} </h3>
-					<div class="overflow-x-auto h-full">
-						{#each currentSchedules as s, i}
-							<div class="flex flex-row relative text-lg">
-								<span class="whitespace-pre"> {s.name} </span>
-								<span class="grow"></span>
-								<span class="sticky right-0 bg-base-300 pl-2"> {s.startAt.slice(11, -4)} </span>
+		{@const current = date.getDay() === i}
+		{@const tommorow = date.getDay() + 1 === i}
+		<div 
+			class="card card-compact bg-info text-info-content min-h-[12rem] "
+		>
+			<div class="card-body">
+				<div class="justify-between flex-row flex"> 
+					<h3 class="card-title">
+						
+						{new Date(2005, 11, i + 4).toLocaleString(undefined, { weekday: "long" })}
+					</h3>
+						
+					{#if current || tommorow}
+						<span class="badge">
+							{#if current} Hari Ini {/if}
+							{#if tommorow} Besok {/if}
+						</span>
+					{/if}
+				</div>
+				<div class="overflow-x-auto h-full divide-y divide-info-content">
+					{#each fillSchedules(currentSchedules) as s, i}
+							<div class="flex flex-row text-lg">
+						{#if s}
+								<span class="whitespace-pre truncate"> {s.name.repeat(20)} </span>
+								<div class="grow"></div>
+								<span> {s.startAt.slice(11, -4)} </span>
+						{:else}
+							-
+						{/if}
 							</div>
-						{/each}
-					</div>
+					{/each}
+					<div></div>
 				</div>
 			</div>
-		{/if}
+		</div>
 	{/each}
 </div>

@@ -8,11 +8,11 @@
 
 	export let members: ClassMember[];
 
-	let i = 1108;
+	let i = 1;
 	const levelCompare = {
-		owner: i--,
-		member: i--,
-		admin: i--
+		owner: 0xff >> i++,
+		member: 0xff >> i++,
+		admin: 0xff >> i++
 	};
 
 	$: m = Array
