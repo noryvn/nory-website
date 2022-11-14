@@ -7,8 +7,8 @@
 	import LoginGuard from "$lib/components/LoginGuard.svelte";
 
 	export let tasks: ClassTask[] = [];
-	let asc = false;
-	let field = "name";
+	let asc = true;
+	let field = "dueDate";
 
 	$: t = Array.from(tasks)
 		.sort((a, b) => a.dueDate - b.dueDate)
