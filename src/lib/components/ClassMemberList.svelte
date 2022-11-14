@@ -4,7 +4,7 @@
 	import { page } from "$app/stores";
 	import { invalidateAll } from "$app/navigation";
 	import Icon from "@iconify/svelte";
-	import LoginGuard from "$lib/components/LoginGuard.svelte"
+	import LoginGuard from "$lib/components/LoginGuard.svelte";
 
 	export let members: ClassMember[];
 
@@ -15,22 +15,21 @@
 		admin: 0xff >> i++
 	};
 
-	$: m = Array
-		.from(members)
+	$: m = Array.from(members)
 		.sort((a, b) => {
 			// sort using level
-			return levelCompare[a.level] - levelCompare[b.level]
+			return levelCompare[a.level] - levelCompare[b.level];
 		})
 		.sort((a, b) => {
 			// move self to first place
 			if (a.userId === $user?.userId) {
-				return -1
+				return -1;
 			}
 			if (b.userId === $user?.userId) {
-				return 1
+				return 1;
 			}
-			return 0
-		})
+			return 0;
+		});
 
 	let loading = false;
 	let error: null | Error = null;
@@ -100,9 +99,7 @@
 		<tbody>
 			{#each m as member, i (member.userId)}
 				{@const self = $user?.userId === member.userId}
-				<tr 
-					class:active={self}
-				>
+				<tr class:active={self}>
 					<th> {i + 1}.</th>
 					<th class="flex items-center gap-2">
 						<div class="avatar">

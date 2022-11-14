@@ -3,7 +3,7 @@
 	import { noryClient, user } from "$lib/nory";
 	import { page } from "$app/stores";
 	import { invalidateAll } from "$app/navigation";
-	
+
 	const currentDate = new Date().toISOString().slice(0, 10);
 
 	let loading = false;
@@ -12,9 +12,9 @@
 	let name = "";
 	let description = "";
 	let authorDisplayName = $user?.username;
-	let setAuthorDisplayName = () => authorDisplayName = $user.username
+	let setAuthorDisplayName = () => (authorDisplayName = $user.username);
 	$: if ($user) {
-		setAuthorDisplayName()
+		setAuthorDisplayName();
 	}
 	let dueDate = new Date().toISOString().slice(0, 10);
 	$: disabled = loading || name === "" || description === "";
@@ -70,11 +70,7 @@
 			class="input input-bordered grow"
 			bind:value={authorDisplayName}
 		/>
-		<button
-			type="button"
-			class="btn btn-warning"
-			on:click={() => authorDisplayName = ""}
-		>
+		<button type="button" class="btn btn-warning" on:click={() => (authorDisplayName = "")}>
 			hapus
 		</button>
 	</div>

@@ -8,7 +8,7 @@ export const QUERY = {
 
 export const LOCAL_STORAGE = {
 	THEME: "theme local storage key"
-} as const
+} as const;
 
 export const REGEX = {
 	USERNAME: /^[a-z0-9][a-z0-9_]{1,18}[a-z0-9]$/i,

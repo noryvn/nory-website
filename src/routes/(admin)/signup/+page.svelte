@@ -9,7 +9,7 @@
 	let passwordCheck: string;
 	let loading = false;
 	let error = null;
-	let success = false
+	let success = false;
 	$: passwordNotMatch = password !== passwordCheck && password && passwordCheck;
 	$: disabled =
 		loading || !email || !password || !passwordCheck || passwordNotMatch || password?.length < 8;
@@ -17,13 +17,13 @@
 	async function signup() {
 		try {
 			loading = true;
-			success = false
+			success = false;
 			const { data, error: e } = await supabaseClient.auth.signUp({
 				email,
 				password
 			});
 
-			success = true
+			success = true;
 			error = e;
 		} catch (e) {
 			error = e;
@@ -101,7 +101,7 @@
 				{/if}
 
 				{#if error}
-					<div class="alert alert-error"> 
+					<div class="alert alert-error">
 						{error.message || error}
 					</div>
 				{/if}

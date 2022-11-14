@@ -1,15 +1,15 @@
 <script lang="ts">
-	import type { ClassSchedule } from "$lib/nory"
-	import { noryClient } from "$lib/nory"
-	import { onMount } from "svelte"
-	import ScheduleCurrentCard from "./_ScheduleCurrentCard.svelte"
-	import ScheduleList from "./_ScheduleList.svelte"
+	import type { ClassSchedule } from "$lib/nory";
+	import { noryClient } from "$lib/nory";
+	import { onMount } from "svelte";
+	import ScheduleCurrentCard from "./_ScheduleCurrentCard.svelte";
+	import ScheduleList from "./_ScheduleList.svelte";
 
-	export let schedules = [] as ClassSchedule[]
-	export let name
+	export let schedules = [] as ClassSchedule[];
+	export let name;
 
-	let setting = false
-	let simple = false
+	let setting = false;
+	let simple = false;
 </script>
 
 <div class="max-w-md container mx-auto space-y-4">
@@ -20,9 +20,7 @@
 		<!-- <button class="w-full" on:click={() => setting = !setting}> Setting </button> -->
 		{#if setting}
 			<div class="py-2 h-12">
-				<button 
-					class="btn btn-sm" on:click={() => simple = !simple}
-				> 
+				<button class="btn btn-sm" on:click={() => (simple = !simple)}>
 					{#if simple} Full {:else} Simple {/if}
 				</button>
 			</div>

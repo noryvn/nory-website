@@ -4,7 +4,7 @@
 	import type { ClassTask } from "$lib/nory";
 	import { noryClient } from "$lib/nory";
 	import Icon from "@iconify/svelte";
-	import LoginGuard from "$lib/components/LoginGuard.svelte"
+	import LoginGuard from "$lib/components/LoginGuard.svelte";
 
 	export let tasks: ClassTask[] = [];
 	let asc = false;

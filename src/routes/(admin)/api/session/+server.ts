@@ -1,5 +1,5 @@
 import { COOKIE } from "$lib/constant";
-import { dev } from "$app/environment"
+import { dev } from "$app/environment";
 
 export const PUT = async ({ cookies, request }) => {
 	const { accessToken } = await request.json();

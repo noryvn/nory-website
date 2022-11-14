@@ -11,14 +11,14 @@
 	import { QUERY } from "$lib/constant";
 
 	$: if (browser && $accessToken) {
-		setSession($accessToken)
+		setSession($accessToken);
 	}
 
 	async function setSession(accessToken: string) {
 		const res = await fetch("/api/session", {
 			method: "PUT",
 			body: JSON.stringify({ accessToken })
-		})
+		});
 		if (!res.ok) {
 			// TODO: handle error
 		}
@@ -39,7 +39,7 @@
 				return;
 			}
 			if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
-				accessToken.set(session.access_token)
+				accessToken.set(session.access_token);
 				return;
 			}
 		});

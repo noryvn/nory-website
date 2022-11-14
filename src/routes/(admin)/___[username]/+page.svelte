@@ -16,14 +16,11 @@
 <main class="w-full flex flex-col">
 	<div class="p-4">
 		<UserProfile {user} />
-
 	</div>
 
 	<div class="p-4">
 		{#if user.name === user.username}
-			<div class="alert alert-warning">
-				anda belum merubah username
-			</div>
+			<div class="alert alert-warning">anda belum merubah username</div>
 		{/if}
 	</div>
 
@@ -47,7 +44,7 @@
 	<section class="my-4 p-4">
 		{#if selected === "class"}
 			<div class="w-full flex flex-row justify-between">
-				<h2> Daftar Kelas: </h2>
+				<h2>Daftar Kelas:</h2>
 				<a href="{$page.url.href}/new-class" class="btn btn-primary btn-sm"> Buat Kelas </a>
 			</div>
 

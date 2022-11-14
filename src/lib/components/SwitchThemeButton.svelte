@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { theme } from "$lib/theme"
-	import Icon from "@iconify/svelte"
+	import { theme } from "$lib/theme";
+	import Icon from "@iconify/svelte";
 
-	let dark = $theme === "dark"
-	$: $theme = dark ? "dark" : "light"
+	let dark = $theme === "dark";
+	$: $theme = dark ? "dark" : "light";
 </script>
 
 <label class="swap swap-rotate h-12 w-12">

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { loggedIn } from "$lib/nory"
+	import { loggedIn } from "$lib/nory";
 </script>
 
 {#if $loggedIn}

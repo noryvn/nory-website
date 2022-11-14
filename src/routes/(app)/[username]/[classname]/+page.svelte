@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { page } from "$app/stores"
-	import Icon from "@iconify/svelte"
-	import AppBottomNavbar from "$lib/components/AppBottomNavbar.svelte"
-	import SchedulePage from "./_SchedulePage.svelte"
+	import { page } from "$app/stores";
+	import Icon from "@iconify/svelte";
+	import AppBottomNavbar from "$lib/components/AppBottomNavbar.svelte";
+	import SchedulePage from "./_SchedulePage.svelte";
 
-	let selected
+	let selected;
 	const texts = {
-		"schedule": "Jadwal",
-	}
-	$: classInfo = $page.data.classInfo
+		schedule: "Jadwal"
+	};
+	$: classInfo = $page.data.classInfo;
 </script>
 
 <div class="p-4 flex flex-col space-y-4">
@@ -19,4 +19,4 @@
 	<AppBottomNavbar classId={classInfo.classId} bind:selected />
 </div>
 
-<div class="h-20"></div>
+<div class="h-20" />

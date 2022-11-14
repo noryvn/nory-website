@@ -14,9 +14,9 @@
 
 	let selected = "task";
 
-	$: tasks = $page.data.task
-	$: member = $page.data.members
-	$: info = $page.data.info
+	$: tasks = $page.data.task;
+	$: member = $page.data.members;
+	$: info = $page.data.info;
 </script>
 
 <main class="flex-auto">

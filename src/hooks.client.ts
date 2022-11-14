@@ -1,2 +1,2 @@
-import "$lib/theme"
-import "$lib/nory"
+import "$lib/theme";
+import "$lib/nory";

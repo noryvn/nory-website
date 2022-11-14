@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { noryClient } from "$lib/nory";
-	import { goto } from "$app/navigation"
+	import { goto } from "$app/navigation";
 
 	let name: string;
 	let description: string;
@@ -11,7 +11,7 @@
 		try {
 			loading = true;
 			await noryClient.createClass({ name, description });
-			goto("/user")
+			goto("/user");
 		} finally {
 			loading = false;
 		}

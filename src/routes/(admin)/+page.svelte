@@ -81,12 +81,7 @@
 				Kalian juga dapat berkontribusi untuk project ini.
 			</p>
 			<div class="card-actions justify-end">
-				<a
-					rel="noreferrer"
-					href=""
-					target="_blank"
-					class="btn btn-primary btn-sm"
-				>
+				<a rel="noreferrer" href="" target="_blank" class="btn btn-primary btn-sm">
 					<Icon icon="mdi:github" class="h-6 mr-2" />
 					Github
 				</a>

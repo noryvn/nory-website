@@ -45,15 +45,15 @@ export interface ClassMember {
 }
 
 export interface ClassSchedule {
-	scheduleId: string
-	classId: string
-	authorId: string
-	createdAt: string
+	scheduleId: string;
+	classId: string;
+	authorId: string;
+	createdAt: string;
 
-	name: string
-	startAt: Date | string
-	duration: number
-	day: number
+	name: string;
+	startAt: Date | string;
+	duration: number;
+	day: number;
 }
 
 export interface NoryResponse<Data> {
@@ -73,27 +73,27 @@ export class NoryError extends Error {
 
 export interface NoryRequestInit extends RequestInit {
 	path: string;
-	searchParams?: Record<string, string>
+	searchParams?: Record<string, string>;
 	json?: unknown;
-	lru?: boolean
+	lru?: boolean;
 }
 
 export class NoryClient {
-	endpoint: string
-	accessToken: string | null
-	
+	endpoint: string;
+	accessToken: string | null;
+
 	constructor(endpoint: string, accessToken: string | null) {
-		this.endpoint = endpoint
-		this.accessToken = accessToken
+		this.endpoint = endpoint;
+		this.accessToken = accessToken;
 	}
 
 	async fetch<Data>(init: NoryRequestInit): Promise<NoryResponse<Data>> {
-		init.method ||= "GET"
+		init.method ||= "GET";
 
 		const url = new URL(init.path, this.endpoint);
 		if (init.searchParams) {
 			for (const [k, v] of Object.entries(init.searchParams)) {
-				url.searchParams.set(k, v)
+				url.searchParams.set(k, v);
 			}
 		}
 		init.headers = new Headers(init.headers);
@@ -124,21 +124,21 @@ export class NoryClient {
 	}
 
 	getClasses() {
-		return this.fetch<Class[]>({ 
-			path: "/user/class",
+		return this.fetch<Class[]>({
+			path: "/user/class"
 		});
 	}
 
 	getClassByName(ownerUsername: string, name: string) {
 		return this.fetch<Class>({
 			path: "/class/info",
-			searchParams: { ownerUsername, name },
-		})
+			searchParams: { ownerUsername, name }
+		});
 	}
 
 	getJoinedClasses() {
-		return this.fetch<ClassMember[]>({ 
-			path: "/user/joined",
+		return this.fetch<ClassMember[]>({
+			path: "/user/joined"
 		});
 	}
 
@@ -152,19 +152,19 @@ export class NoryClient {
 
 	getProfile() {
 		return this.fetch<User>({
-			path:  "/user/profile",
+			path: "/user/profile"
 		});
 	}
 
 	getProfileById(userId: string) {
 		return this.fetch<User>({
-			path:  `/user/id/${userId}/profile`,
+			path: `/user/id/${userId}/profile`
 		});
 	}
 
 	getProfileByUsername(username: string) {
 		return this.fetch<User>({
-			path: `/user/username/${username}/profile`,
+			path: `/user/username/${username}/profile`
 		});
 	}
 
@@ -172,7 +172,7 @@ export class NoryClient {
 		return this.fetch<null>({
 			path: "/user/profile",
 			method: "PATCH",
-			json: user,
+			json: user
 		});
 	}
 
@@ -201,7 +201,7 @@ export class NoryClient {
 		return this.fetch<null>({
 			path: `/class/${classId}/member`,
 			method: "POST",
-			json: { username },
+			json: { username }
 		});
 	}
 
@@ -209,14 +209,14 @@ export class NoryClient {
 		return this.fetch<null>({
 			path: `/class/${classId}/member/${memberId}`,
 			method: "PATCH",
-			json: member,
+			json: member
 		});
 	}
 
 	removeClassMember(classId: string, memberId: string) {
 		return this.fetch<null>({
 			path: `/class/${classId}/member/${memberId}`,
-			method: "DELETE",
+			method: "DELETE"
 		});
 	}
 
@@ -224,35 +224,41 @@ export class NoryClient {
 		return this.fetch<null>({
 			path: `/class/${task.classId}/task`,
 			method: "POST",
-			json: task,
+			json: task
 		});
 	}
 
 	deleteClassTask(classId: string, taskId: string) {
 		return this.fetch<null>({
 			path: `/class/${classId}/task/${taskId}`,
-			method: "DELETE",
+			method: "DELETE"
 		});
 	}
 
-	createClassSchedule(schedule: { classId: string; name: string; startAt: string; day: number; duration: number}) {
+	createClassSchedule(schedule: {
+		classId: string;
+		name: string;
+		startAt: string;
+		day: number;
+		duration: number;
+	}) {
 		return this.fetch<null>({
 			path: `/class/${schedule.classId}/schedule`,
 			method: "POST",
-			json: schedule,
-		})
+			json: schedule
+		});
 	}
 
 	getClassSchedule(classId: string) {
 		return this.fetch<ClassSchedule[]>({
-			path: `/class/${classId}/schedule`,
-		})
+			path: `/class/${classId}/schedule`
+		});
 	}
 
 	deleteClassSchedule(classId: string, scheduleId: string) {
 		return this.fetch<null>({
 			path: `/class/${classId}/schedule/${scheduleId}`,
-			method: "DELETE",
-		})
+			method: "DELETE"
+		});
 	}
 }
