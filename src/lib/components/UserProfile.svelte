@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { page } from "$app/stores"
 	export let user;
+	$: href = new URL(`/${user.username}/`, $page.url).href
 </script>
 
 <div class="grid grid-cols-4 gap-4">
@@ -12,8 +14,9 @@
 		<h1 class="text-3xl truncate">
 			{user?.name}
 		</h1>
-		<div>
+		<div class="flex flex-col items-start">
 			<span class="tooltip select-none" data-tip="username"> @{user?.username} </span>
+			<a {href} class="link link-primary">{href}</a>
 		</div>
 	</div>
 </div>
