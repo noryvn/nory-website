@@ -40,7 +40,12 @@
 			bind:value={username}
 		/>
 		{#if invalidUsername}
-			<span class="text-error"> Username tidak valid </span>
+			<div class="text-error"> 
+				<div class="flex flex-col">
+					<span> Username harus diawali angka atau huruf </span>
+					<span> Username harus memiliki satu underscore </span>
+				</div>
+			</div>
 		{/if}
 
 		<label class="label"> Nama </label>
