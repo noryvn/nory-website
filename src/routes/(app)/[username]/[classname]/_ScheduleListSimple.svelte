@@ -23,7 +23,8 @@
 </script>
 
 <div class="grid grid-cols-2 gap-4 w-full">
-	{#each schedulesByDay as currentSchedules, i}
+	{#each schedulesByDay as currentSchedules, ii}
+		{@const i = ii + 1 % 7}
 		{@const current = date.getDay() === i}
 		{@const tommorow = date.getDay() + 1 === i}
 		<div 
@@ -32,7 +33,6 @@
 			<div class="card-body">
 				<div class="justify-between flex-row flex"> 
 					<h3 class="card-title">
-						
 						{new Date(2005, 11, i + 4).toLocaleString(undefined, { weekday: "long" })}
 					</h3>
 						
