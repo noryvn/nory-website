@@ -18,7 +18,7 @@
 	}
 
 	function fillSchedules(schedules: ClassSchedule[]): (ClassSchedule | null)[] {
-		return Array.from({ length: 5 }).map((_, i) => schedules[i] || null)
+		return Array.from({ length: 5 }).map((_, i) => schedules[i] || null).concat(schedules.slice(5))
 	}
 </script>
 
