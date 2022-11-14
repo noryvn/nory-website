@@ -150,6 +150,13 @@ export class NoryClient {
 		});
 	}
 
+	deleteClass(classId: string) {
+		return this.fetch<null>({
+			path: `/class/${classId}`,
+			method: "DELETE"
+		});
+	}
+
 	getProfile() {
 		return this.fetch<User>({
 			path: "/user/profile"
@@ -179,21 +186,18 @@ export class NoryClient {
 	getClassInfo(classId: string) {
 		return this.fetch<Class>({
 			path: `/class/${classId}/info`,
-			lru: true
 		});
 	}
 
 	getClassTask(classId: string) {
 		return this.fetch<ClassTask[]>({
 			path: `/class/${classId}/task`,
-			lru: true
 		});
 	}
 
 	getClassMember(classId: string) {
 		return this.fetch<ClassMember[]>({
 			path: `/class/${classId}/member`,
-			lru: true
 		});
 	}
 

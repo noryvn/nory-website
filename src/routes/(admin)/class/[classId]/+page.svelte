@@ -6,6 +6,7 @@
 
 	import CreateTaskForm from "$lib/components/CreateTaskForm.svelte";
 	import ClassTaskTable from "$lib/components/ClassTaskTable.svelte";
+	import ClassSetting from "$lib/components/ClassSetting.svelte";
 	import ClassMemberList from "$lib/components/ClassMemberList.svelte";
 	import ClassScheduleForm from "$lib/components/ClassScheduleForm.svelte";
 	import ClassScheduleTable from "$lib/components/ClassScheduleTable.svelte";
@@ -47,6 +48,15 @@
 		>
 			Anggota
 		</btn>
+		<LoginGuard>
+			<btn
+				on:click={() => (selected = "setting")}
+				class="tab tab-bordered"
+				class:tab-active={selected === "setting"}
+			>
+				Pengaturan
+			</btn>
+		</LoginGuard>
 	</div>
 
 	{#if selected === "task"}
@@ -72,6 +82,10 @@
 				<ClassScheduleForm />
 			</LoginGuard>
 			<ClassScheduleTable schedule={$page.data.schedule} />
+		</div>
+	{:else if selected === "setting"}
+		<div class="p-4 flex flex-col">
+			<ClassSetting classInfo={info} />
 		</div>
 	{/if}
 </main>
