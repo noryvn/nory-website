@@ -4,6 +4,7 @@
 	import { supabaseClient } from "$lib/supabaseClient";
 	import { QUERY } from "$lib/constant";
 	import { goto } from "$app/navigation";
+	import GoogleSignin from "$lib/components/GoogleSignin.svelte"
 
 	let email: string;
 	let password: string;
@@ -61,14 +62,14 @@
 					class="input input-bordered"
 				/>
 			</form>
-			<div class="flex flex-row flex-wrap justify-end pt-2">
+			<div class="flex flex-row flex-wrap justify-end pt-2 space-y-2">
 				<p class="w-full text-center">
 					Belum punya akun?
 					<a href="/signup" class="link link-primary"> Signup </a>
 				</p>
 				<button
 					type="button"
-					class="btn btn-primary"
+					class="btn btn-primary w-full"
 					on:click={() => login()}
 					class:loading
 					{disabled}
@@ -76,6 +77,14 @@
 					Login
 				</button>
 			</div>
+			<div class="divider"></div>
+			<button
+				type="button"
+				class="w-3/5 mx-auto h-full hover:scale-95 select-none"
+				on:click={() => supabaseClient.auth.signInWithOAuth({ provider: "google" })}
+			>
+				<GoogleSignin />
+			</button>
 			{#if error}
 				<div class="alert alert-error">
 					{error.message}
