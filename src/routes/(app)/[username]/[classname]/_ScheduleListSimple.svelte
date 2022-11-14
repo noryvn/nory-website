@@ -47,7 +47,7 @@
 					{#each fillSchedules(currentSchedules) as s, i}
 							<div class="flex flex-row text-lg">
 						{#if s}
-								<span class="whitespace-pre truncate"> {s.name.repeat(20)} </span>
+								<span class="whitespace-pre truncate"> {s.name} </span>
 								<div class="grow"></div>
 								<span> {s.startAt.slice(11, -4)} </span>
 						{:else}
