@@ -25,8 +25,7 @@
 </script>
 
 <div class="grid grid-cols-2 gap-4 w-full">
-	{#each schedulesByDay as currentSchedules, ii}
-		{@const i = ii + (1 % 7)}
+	{#each schedulesByDay as currentSchedules, i}
 		{@const current = date.getDay() === i}
 		{@const tommorow = date.getDay() + 1 === i}
 		<div class="card card-compact bg-info text-info-content min-h-[12rem] ">
