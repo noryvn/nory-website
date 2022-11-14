@@ -43,7 +43,8 @@
 			<div class="text-error"> 
 				<div class="flex flex-col">
 					<span> Username harus diawali angka atau huruf </span>
-					<span> Username harus memiliki satu underscore </span>
+					<span> Username harus diawali angka atau huruf </span>
+					<span> Username tidak boleh lebih dari 20 karakter </span>
 				</div>
 			</div>
 		{/if}
