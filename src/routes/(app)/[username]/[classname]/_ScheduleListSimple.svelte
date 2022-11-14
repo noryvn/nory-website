@@ -25,7 +25,8 @@
 </script>
 
 <div class="grid grid-cols-2 gap-4 w-full">
-	{#each schedulesByDay as currentSchedules, i}
+	{#each schedulesByDay as _, ii}
+		{@const i = (ii + 1) % 7}
 		{@const current = date.getDay() === i}
 		{@const tommorow = date.getDay() + 1 === i}
 		<div class="card card-compact bg-info text-info-content min-h-[12rem] ">
@@ -43,7 +44,7 @@
 					{/if}
 				</div>
 				<div class="overflow-x-auto h-full divide-y divide-info-content">
-					{#each fillSchedules(currentSchedules) as s, i}
+					{#each fillSchedules(schedulesByDay[i]) as s, i}
 						<div class="flex flex-row text-lg">
 							{#if s}
 								<span class="whitespace-pre truncate"> {s.name} </span>
