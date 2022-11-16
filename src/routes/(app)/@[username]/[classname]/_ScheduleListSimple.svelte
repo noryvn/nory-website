@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { ClassSchedule } from "$lib/nory";
+	import { browser } from "$app/environment"
 
 	export let schedules = [] as ClassSchedule[];
 	export let date = new Date();
@@ -60,13 +61,13 @@
 						{new Date(2005, 11, i + 4).toLocaleString(undefined, { weekday: "long" })}
 					</h3>
 
-					{#if current}
+					{#if current && browser}
 						<span class="text-md badge">
 							Hari Ini
 						</span>
 					{/if}
 
-					{#if tommorow}
+					{#if tommorow && browser}
 						<span class="text-md badge badge-outline">
 							Besok
 						</span>
