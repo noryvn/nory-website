@@ -5,5 +5,7 @@
 </script>
 
 <div class="max-w-sm h-full">
-	<img {src} class="h-full">
+	{#key src}
+		<img {src} class="h-full">
+	{/key}
 </div>
