@@ -3,6 +3,7 @@
 	import { noryClient } from "$lib/nory";
 	import { page } from "$app/stores";
 	import { invalidateAll } from "$app/navigation";
+	import { onMount } from "svelte"
 
 	import CreateTaskForm from "$lib/components/CreateTaskForm.svelte";
 	import ClassTaskTable from "$lib/components/ClassTaskTable.svelte";
@@ -16,14 +17,27 @@
 	let selected = "task";
 
 	$: tasks = $page.data.task;
-	$: member = $page.data.members;
+	$: member = $page.data.member;
 	$: info = $page.data.info;
+
+	let classUrl = "/loading"
+
+	onMount(async () => {
+		const userId = member.find(i => i.level === "owner").userId
+		if (!userId) {
+			return
+		}
+		const { data: user } = await noryClient.getProfileById(userId)
+		classUrl = new URL(`/@${user.username}/${info.name}`, $page.url).href
+	})
+
 </script>
 
 <main class="flex-auto">
 	<div class="p-4">
 		<h1 class="text-5xl capitalize">{$page.data.info.name}</h1>
 		<p>{$page.data.info.description}</p>
+		<a href={classUrl} class="link link-primary"> {classUrl} </a>
 	</div>
 
 	<div class="tabs">
