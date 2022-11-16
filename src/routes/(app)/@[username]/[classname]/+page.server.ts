@@ -6,6 +6,7 @@ export const load = async ({ params, setHeaders }) => {
 		const { data: classInfo } = await noryClient.getClassByName(params.username, params.classname);
 		setHeaders({ "cache-control": "public, max-age=1800" })
 		return {
+			user: noryClient.getProfileByUsername(params.username).then(i => i.data),
 			classInfo,
 			schedules: noryClient.getClassSchedule(classInfo.classId).then((res) => res.data)
 		};

@@ -36,10 +36,15 @@
 						{new Date(2005, 11, i + 4).toLocaleString(undefined, { weekday: "long" })}
 					</h3>
 
-					{#if current || tommorow}
+					{#if current}
 						<span class="badge">
-							{#if current} Hari Ini {/if}
-							{#if tommorow} Besok {/if}
+							Hari Ini
+						</span>
+					{/if}
+
+					{#if tommorow}
+						<span class="badge badge-outline">
+							Besok
 						</span>
 					{/if}
 				</div>

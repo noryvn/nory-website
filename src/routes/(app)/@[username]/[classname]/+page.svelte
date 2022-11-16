@@ -11,6 +11,12 @@
 	$: classInfo = $page.data.classInfo;
 </script>
 
+<nav class="navbar bg-base-100 border-base-content border-b">
+	<div class="flex-1 text-2xl">
+		<a href="/@{$page.data.user.username}"> {$page.data.user.username} </a>
+	</div>
+</nav>
+
 <div class="p-4 flex flex-col space-y-4">
 	{#if selected === "schedule"}
 		<SchedulePage schedules={$page.data.schedules} name={classInfo.name} />
