@@ -3,7 +3,7 @@
 
 	export let schedules = [] as ClassSchedule[];
 	export let date = new Date();
-
+	date.setHours(11)
 	$: schedulesByDay = getSchedulesByDay(schedules);
 
 	function getSchedulesByDay(schedules: ClassSchedule[]) {
@@ -22,6 +22,33 @@
 			.map((_, i) => schedules[i] || null)
 			.concat(schedules.slice(5));
 	}
+
+	function isCurrentSchedule(schedule: ClassSchedule) {
+		if (schedule.day !== date.getDay()) {
+			console.log("a")
+			return false
+		}
+
+		const startAt = new Date(date.toISOString().slice(0, 10) + schedule.startAt.slice(10, -1));
+		// not started
+		if (startAt >= date) {
+			console.log("af")
+			return false;
+		}
+
+		const until = addMinutes(startAt, schedule.duration);
+		// expiry
+		if (until < date) {
+			console.log("aff")
+			return false;
+		}
+
+		return true
+	}
+
+	function addMinutes(date: Date, minutes: number) {
+		return new Date(date.getTime() + minutes * 60_000);
+	}
 </script>
 
 <div class="grid grid-cols-2 gap-4 w-full">
@@ -37,26 +64,32 @@
 					</h3>
 
 					{#if current}
-						<span class="badge">
+						<span class="text-md badge">
 							Hari Ini
 						</span>
 					{/if}
 
 					{#if tommorow}
-						<span class="badge badge-outline">
+						<span class="text-md badge badge-outline">
 							Besok
 						</span>
 					{/if}
 				</div>
 				<div class="overflow-x-auto h-full divide-y divide-info-content">
 					{#each fillSchedules(schedulesByDay[i]) as s, i}
-						<div class="flex flex-row text-lg">
+						<div 
+							class="flex flex-row text-lg items-center"
+						>
 							{#if s}
-								<span class="whitespace-pre truncate"> {s.name} </span>
+								<span class="whitespace-pre truncate" > {s.name}</span>
 								<div class="grow" />
-								<span> {s.startAt.slice(11, -4)} </span>
+								{#if isCurrentSchedule(s)}
+									<span class="badge badge-success"> Sekarang </span>
+								{:else}
+									<span class="badge badge-outline"> {s.startAt.slice(11, -4)} </span>
+								{/if}
 							{:else}
-								-
+								<span class="invisible"> abel </span>
 							{/if}
 						</div>
 					{/each}
