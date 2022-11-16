@@ -195,6 +195,13 @@ export class NoryClient {
 		});
 	}
 
+	getClassTaskAt(classId: string, date: Date) {
+		const to = new Date(date.getTime() + 86400_000)
+		return this.fetch<ClassTask[]>({
+			path: `/class/${classId}/task?from=${date.toISOString()}&to=${to.toISOString()}`,
+		});
+	}
+
 	getClassMember(classId: string) {
 		return this.fetch<ClassMember[]>({
 			path: `/class/${classId}/member`,

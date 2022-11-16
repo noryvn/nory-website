@@ -25,21 +25,18 @@
 
 	function isCurrentSchedule(schedule: ClassSchedule) {
 		if (schedule.day !== date.getDay()) {
-			console.log("a")
 			return false
 		}
 
 		const startAt = new Date(date.toISOString().slice(0, 10) + schedule.startAt.slice(10, -1));
 		// not started
 		if (startAt >= date) {
-			console.log("af")
 			return false;
 		}
 
 		const until = addMinutes(startAt, schedule.duration);
 		// expiry
 		if (until < date) {
-			console.log("aff")
 			return false;
 		}
 
