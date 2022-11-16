@@ -39,13 +39,15 @@
 
 		<div class="divider">{new Date(currentDate).toLocaleString(undefined, { weekday: "long" })}</div>
 
-		{#each cachedTasks[currentDate] as task (task.taskId)}
-			<div class="card card-compact bg-info">
-				<div class="card-body">
-					<h2 class="card-title">{task.name}</h2>
-					<p>{task.description}</p>
+		<div class="flex flex-col space-y-4">
+			{#each cachedTasks[currentDate] as task (task.taskId)}
+				<div class="card card-compact bg-info text-info-content">
+					<div class="card-body">
+						<h2 class="card-title">{task.name}</h2>
+						<p>{task.description}</p>
+					</div>
 				</div>
-			</div>
-		{/each}
+			{/each}
+		</div>
 	</div>
 </div>
