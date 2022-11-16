@@ -2,6 +2,7 @@
 	import type { ClassTask } from "$lib/nory";
 	import { noryClient } from "$lib/nory";
 	import { onMount } from "svelte";
+	import { browser } from "$app/environment"
 	import ScheduleCurrentCard from "./_ScheduleCurrentCard.svelte";
 	import ScheduleList from "./_ScheduleList.svelte";
 
@@ -19,9 +20,33 @@
 		const from = new Date(currentDate)
 
 		const { data } = await noryClient.getClassTaskAt(classId, from)
-		cachedTasks[date]  = data
+		cachedTasks[date] = data
+		if (cachedTasks[date].length === 0) {
+			cachedTasks[date] = null
+		}
 	}
 	$: getTasks(currentDate)
+
+
+	let finished = []
+	let loaded = false
+	function loadFinished() {
+		if (!browser) { return }
+		try {
+			const f = localStorage.getItem("finish") || "[]"
+			loaded = true
+			finished = JSON.parse(f)
+		} catch {}
+	}
+	function saveFinished(finished: string[]) {
+		if (!browser) { return }
+		localStorage.setItem("finish", JSON.stringify(finished))
+	}
+	$: loaded && saveFinished(finished)
+
+	onMount(() => {
+		loadFinished()
+	})
 </script>
 
 <div class="max-w-md container mx-auto space-y-4 h-full">
@@ -40,14 +65,30 @@
 		<div class="divider">{new Date(currentDate).toLocaleString(undefined, { weekday: "long" })}</div>
 
 		<div class="flex flex-col space-y-4">
-			{#each cachedTasks[currentDate] as task (task.taskId)}
-				<div class="card card-compact bg-info text-info-content">
-					<div class="card-body">
-						<h2 class="card-title">{task.name}</h2>
-						<p>{task.description}</p>
+			{#if cachedTasks[currentDate]}
+				{#each cachedTasks[currentDate] as task (task.taskId)}
+					<div class="card card-compact bg-info text-info-content">
+						<div class="card-body">
+							<div class="flex flex-row items-center justify-between">
+								<h2 class="card-title">{task.name}</h2>
+								{#if finished.includes(task.taskId)}
+									<span class="badge badge-outline"> Diselesaikan </span>
+								{/if}
+							</div>
+							<p>{task.description}</p>
+
+							{#if !finished.includes(task.taskId)}
+								<button class="btn btn-sm btn-outline text-neutral" on:click={() => finished = finished.concat([task.taskId])}> Selesai </button>
+							{/if}
+						</div>
 					</div>
-				</div>
-			{/each}
+				{/each}
+				{#if cachedTasks[currentDate].length}
+					<div> Semangat teman teman </div>
+				{/if}
+			{:else}
+				<div class="text-center"> Kosong </div>
+			{/if}
 		</div>
 	</div>
 </div>
