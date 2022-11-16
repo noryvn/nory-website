@@ -30,7 +30,7 @@
 			Tugas Kelas {name}
 		</h2>
 	</div>
-	<div class="flex flex-col p-4 border boreder-base-content rounded-md shadow h-full">
+	<div class="flex flex-col p-4 border boreder-neutral rounded-md shadow h-full">
 		<div class="flex flex-row justify-between gap-2">
 			<button on:click={() => currentDate = addDay(currentDate, -1)} class="btn btn-primary"> Prev </button>
 			<input type="date" name="date" class="input input-bordered grow" bind:value={currentDate}>
