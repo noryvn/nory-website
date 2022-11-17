@@ -60,7 +60,7 @@
 			<div class="card-body">
 				<div class="justify-between flex-row flex">
 					<h3 class="card-title">
-						{new Date(2005, 11, i + 4).toLocaleString(undefined, { weekday: "long" })}
+						{new Date(2005, 8, i + 4).toLocaleString(undefined, { weekday: "long" })}
 					</h3>
 
 					{#if current && browser}
