@@ -31,6 +31,7 @@
 
 	let finished = []
 	let loaded = false
+	let hint = false
 	function loadFinished() {
 		if (!browser) { return }
 		try {
@@ -46,6 +47,7 @@
 	$: loaded && saveFinished(finished)
 
 	onMount(() => {
+		hint = !localStorage.getItem("hint-task")
 		loadFinished()
 	})
 </script>
@@ -94,7 +96,17 @@
 					<div> Semangat teman teman </div>
 				{/if}
 			{:else}
-				<div class="text-center"> Kosong </div>
+				{#if hint}
+					<div class="alert alert-info">
+						Hai kak, Setiap anggota kelas dapat mengisi daftar tugas disini.
+						<button class="btn" on:click={() => {
+							hint = false
+							localStorage.setItem("hint-task", "abelia naringi agsya")
+						}}> ok </button>
+					</div>
+				{:else}
+					<div class="text-center"> Kosong </div>
+				{/if}
 			{/if}
 		</div>
 	</div>
