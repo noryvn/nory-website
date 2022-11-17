@@ -9,11 +9,14 @@
 
 	function getSchedulesByDay(schedules: ClassSchedule[]) {
 		const byDay = Array.from({ length: 7 }, () => []);
-		for (const s of schedules) {
-			if (byDay[s.day].find((i) => i.name === s.name)) {
-				continue;
+		const ss = schedules.slice().sort((a, b) => a.startAt.localeCompare(b.startAt))
+		for (const s of ss) {
+			const day = byDay[s.day]
+			if (day[day.length - 1]?.name === s.name) {
+				day.duration += s.duration
+				continue
 			}
-			byDay[s.day].push(s);
+			day.push(s);
 		}
 		return byDay;
 	}

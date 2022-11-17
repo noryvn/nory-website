@@ -2,6 +2,7 @@
 	import { page } from "$app/stores";
 	import Icon from "@iconify/svelte";
 	import AppBottomNavbar from "$lib/components/AppBottomNavbar.svelte";
+	import Footer from "$lib/components/Footer.svelte";
 	import SchedulePage from "./_SchedulePage.svelte";
 	import TaskPage from "./_TaskPage.svelte";
 
@@ -15,8 +16,8 @@
 </script>
 
 <nav class="navbar bg-base-100 border-base-content border-b">
-	<div class="flex-1 text-2xl">
-		<a href="/@{$page.data.user.username}"> {$page.data.user.username} </a>
+	<div class="flex-1 text-2xl space-x-2">
+		<a href="/@{$page.data.user.username}"> @{$page.data.user.username} </a>
 	</div>
 </nav>
 
@@ -28,7 +29,9 @@
 		<TaskPage {schedulesName} name={classInfo.name} classId={classInfo.classId} />
 	{/if}
 
+
 	<AppBottomNavbar classId={classInfo.classId} bind:selected />
 </div>
 
-<div class="h-20" />
+<Footer />
+<div class="h-16" />

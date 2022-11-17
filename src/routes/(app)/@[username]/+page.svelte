@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
 	import { page } from "$app/stores";
+	import Footer from "$lib/components/Footer.svelte";
 
 	export let data: PageData;
 	$: ({ user } = data);
@@ -8,7 +9,7 @@
 	$: ownedClass = Array.from(user.ownedClass).sort((a, b) => a.name.localeCompare(b.name));
 </script>
 
-<div class="p-6 max-w-xl container mx-auto space-y-4">
+<div class="p-6 max-w-xl container mx-auto space-y-4 grow">
 	<div class="flex flex-row">
 		<div class="h-20 avatar">
 			<div class="rounded-full">
@@ -33,6 +34,7 @@
 		{/each}
 	</div>
 </div>
+<Footer />
 
 <style>
 	div:has(h1) .text-lg::before {

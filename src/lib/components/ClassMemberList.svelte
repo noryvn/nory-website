@@ -11,9 +11,14 @@
 	let i = 1;
 	const levelCompare = {
 		owner: 0xff >> i++,
+		admin: 0xff >> i++,
 		member: 0xff >> i++,
-		admin: 0xff >> i++
 	};
+	const memberLevel = {
+		owner: "Pemilik",
+		admin: "Pengurus",
+		member: "Anggota",
+	}
 
 	$: m = Array.from(members)
 		.sort((a, b) => {
@@ -122,7 +127,7 @@
 							{/await}
 						{/if}
 					</th>
-					<th> {member.level} </th>
+					<th> {memberLevel[member.level]} </th>
 					<LoginGuard>
 						<th>
 							<div>

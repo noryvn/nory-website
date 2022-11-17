@@ -22,7 +22,7 @@
 	{/each}
 	<a href="/class/{classId}">
 		<Icon icon="mdi:cog-outline" />
-		<span> Admin </span>
+		<span> Pengaturan </span>
 	</a>
 	<div class="flex-none aspect-square">
 		<SwitchThemeButton />

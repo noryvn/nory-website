@@ -1,5 +1,6 @@
 import { noryClient } from "$lib/nory";
 
+export const prerender = "auto"
 export const load = async ({ params, setHeaders }) => {
 	try {
 		const { data: user } = await noryClient.getProfileByUsername(params.username);

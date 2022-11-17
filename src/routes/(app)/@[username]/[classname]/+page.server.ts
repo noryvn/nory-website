@@ -1,6 +1,7 @@
 import { noryClient, NoryError } from "$lib/nory";
 import { error } from "@sveltejs/kit"
 
+export const prerender = "auto"
 export const load = async ({ params, setHeaders }) => {
 	try {
 		const { data: classInfo } = await noryClient.getClassByName(params.username, params.classname);
