@@ -11,8 +11,11 @@
 		const ss = schedules.slice().sort((a, b) => a.startAt.localeCompare(b.startAt))
 		for (const s of ss) {
 			const day = byDay[s.day]
-			if (day[day.length - 1]?.name === s.name) {
-				day.duration += s.duration
+			// if (day[day.length - 1]?.name === s.name) {
+			// 	day.duration += s.duration
+			// 	continue
+			// }
+			if (day.find(i => i.name === s.name)) {
 				continue
 			}
 			day.push(s);
@@ -83,11 +86,11 @@
 							{#if s}
 								<span class="whitespace-pre truncate" > {s.name}</span>
 								<div class="grow" />
-								{#if isCurrentSchedule(s)}
+								<!-- {#if isCurrentSchedule(s)}
 									<span class="badge badge-success"> Sekarang </span>
 								{:else}
-									<span class="badge badge-outline"> {s.startAt.slice(11, -4)} </span>
-								{/if}
+								{/if} -->
+								<span class="badge badge-outline"> {s.startAt.slice(11, -4)} </span>
 							{:else}
 								<span class="invisible"> abel </span>
 							{/if}
