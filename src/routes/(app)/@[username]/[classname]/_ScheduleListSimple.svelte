@@ -4,7 +4,6 @@
 
 	export let schedules = [] as ClassSchedule[];
 	export let date = new Date();
-	date.setHours(11)
 	$: schedulesByDay = getSchedulesByDay(schedules);
 
 	function getSchedulesByDay(schedules: ClassSchedule[]) {
