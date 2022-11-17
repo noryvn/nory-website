@@ -89,8 +89,8 @@
 								<!-- {#if isCurrentSchedule(s)}
 									<span class="badge badge-success"> Sekarang </span>
 								{:else}
+									<span class="badge badge-outline"> {s.startAt.slice(11, -4)} </span>
 								{/if} -->
-								<span class="badge badge-outline"> {s.startAt.slice(11, -4)} </span>
 							{:else}
 								<span class="invisible"> abel </span>
 							{/if}
