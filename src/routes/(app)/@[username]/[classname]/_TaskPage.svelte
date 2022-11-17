@@ -98,7 +98,7 @@
 			{:else}
 				{#if hint}
 					<div class="alert alert-info">
-						Hai kak, Setiap anggota kelas dapat mengisi daftar tugas disini.
+						Hai kak, Setiap Anggota kelas dapat mengisi daftar tugas disini.
 						<button class="btn" on:click={() => {
 							hint = false
 							localStorage.setItem("hint-task", "abelia naringi agsya")
