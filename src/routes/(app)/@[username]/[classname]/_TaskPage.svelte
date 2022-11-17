@@ -5,6 +5,7 @@
 	import { browser } from "$app/environment"
 	import ScheduleCurrentCard from "./_ScheduleCurrentCard.svelte";
 	import ScheduleList from "./_ScheduleList.svelte";
+	import Icon from "@iconify/svelte"
 
 	export let schedulesName = [] as string[];
 	export let name;
@@ -72,7 +73,13 @@
 							<div class="flex flex-row items-center justify-between">
 								<h2 class="card-title">{task.name}</h2>
 								{#if finished.includes(task.taskId)}
-									<span class="badge badge-outline"> Diselesaikan </span>
+									<button 
+										class="badge badge-outline"
+										on:click={() => (finished = finished.filter(i => i !== task.taskId))}
+									> 
+										<Icon icon="mdi:close" />
+										Diselesaikan 
+									</button>
 								{/if}
 							</div>
 							<p>{task.description}</p>
