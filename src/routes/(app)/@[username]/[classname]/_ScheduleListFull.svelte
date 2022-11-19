@@ -80,7 +80,7 @@
 						{/if}
 					</div>
 					<div class="min-w-max">
-						<span> {new Date(s.startAt).getHours()}:{new Date(s.startAt).getMinutes()} </span>
+						<span> {s.startAt.slice(11, -4)} </span>
 						<span> ({s.duration} menit) </span>
 					</div>
 				</div>
