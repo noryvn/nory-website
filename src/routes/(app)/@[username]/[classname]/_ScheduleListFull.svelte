@@ -44,17 +44,11 @@
 	let displayedDay = new Date().getDay()
 	$: if (schedulesByDay) { addDisplayedDay(7) }
 	function addDisplayedDay(n: number) {
-		displayedDay += n
-		while (displayedDay < 0) {
-			displayedDay += 7
-		}
+		displayedDay += n % 7 + 7
 		displayedDay %= 7
-
-		for (let i = 0; i < 7; i++)	{
-			if (schedulesByDay && !schedulesByDay[displayedDay].length) {
-				displayedDay += 1
-				displayedDay %= 7
-			}	
+		while (schedulesByDay && !schedulesByDay[displayedDay].length) {
+			displayedDay += n > 0 ? 1 : 6
+			displayedDay %= 7
 		}
 	}
 </script>
