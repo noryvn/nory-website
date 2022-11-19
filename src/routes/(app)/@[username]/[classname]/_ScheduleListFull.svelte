@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { ClassSchedule } from "$lib/nory";
 	import { browser } from "$app/environment"
+	import { onMount } from "svelte"
 
 	export let schedules = [] as ClassSchedule[];
 	export let date = new Date();
@@ -41,15 +42,19 @@
 	}
 
 	let displayedDay = new Date().getDay()
-	browser && addDisplayedDay(7)
+	$: if (schedulesByDay) { addDisplayedDay(7) }
 	function addDisplayedDay(n: number) {
 		displayedDay += n
 		while (displayedDay < 0) {
 			displayedDay += 7
 		}
 		displayedDay %= 7
-		if (schedulesByDay && !schedulesByDay[displayedDay].length) {
-			addDisplayedDay(1)
+
+		for (let i = 0; i < 7; i++)	{
+			if (schedulesByDay && !schedulesByDay[displayedDay].length) {
+				displayedDay += 1
+				displayedDay %= 7
+			}	
 		}
 	}
 </script>
