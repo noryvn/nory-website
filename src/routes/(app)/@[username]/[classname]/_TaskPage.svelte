@@ -60,7 +60,7 @@
 	$: loaded && saveFinished(finished)
 
 	onMount(() => {
-		hint = !localStorage.getItem("hint-task")
+		hint = localStorage.getItem("hint-task") !== new Date().toISOString().slice(0, 10)
 		loadFinished()
 	})
 </script>
@@ -120,7 +120,7 @@
 						Hai kak, Setiap Anggota kelas dapat mengisi daftar tugas disini.
 						<button class="btn" on:click={() => {
 							hint = false
-							localStorage.setItem("hint-task", "abelia naringi agsya")
+							localStorage.setItem("hint-task",  new Date().toISOString().slice(0, 10))
 						}}> ok </button>
 					</div>
 				{:else}
