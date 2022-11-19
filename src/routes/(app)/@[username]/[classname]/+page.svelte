@@ -15,6 +15,10 @@
 	$: schedulesName = [...new Set($page.data.schedules.map(i => i.name))]
 </script>
 
+<svelte:head>
+	<title> {classInfo.name} class home page. </title>
+</svelte:head>
+
 <nav class="navbar bg-base-100 border-base-content border-b">
 	<div class="flex-1 text-2xl space-x-2">
 		<a href="/@{$page.data.user.username}"> @{$page.data.user.username} </a>

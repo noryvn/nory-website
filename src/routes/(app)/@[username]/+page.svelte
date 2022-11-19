@@ -34,6 +34,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title> Homepage of @{user.username} ({user.name}) </title>
+</svelte:head>
+
 <div class="p-6 max-w-xl container mx-auto space-y-4 grow">
 	<div class="flex flex-row">
 		<div class="h-20 avatar">
