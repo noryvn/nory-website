@@ -27,6 +27,7 @@
 				<a class="text-lg w-full" href="/user"> User </a>
 				<a class="text-lg w-full" href="/login"> Login </a>
 				<a class="text-lg w-full" href="/signup"> Signup </a>
+				<a class="text-lg w-full" href="/privacy-policy"> Kebijakan Privasi </a>
 				<div class="w-full flex flex-row justify-end">
 					<SwitchThemeButton />
 				</div>
