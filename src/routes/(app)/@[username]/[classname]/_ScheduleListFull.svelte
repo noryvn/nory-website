@@ -81,7 +81,7 @@
 					class="{current && 'bg-zinc-700/30'} flex flex-row"
 				> 
 					<div class="grow truncate">
-						<span> {s.name.repeat(999)} </span>
+						<span> {s.name} </span>
 						{#if current}
 							<span> (Saat ini) </span>
 						{/if}
