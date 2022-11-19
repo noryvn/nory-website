@@ -31,7 +31,10 @@
 	let unfinishedOnly = false
 	function filterTasks(unfinishedOnly: boolean) {
 		return (t: ClassTask) => {
-			if (finished.includes(t.taskId)) {
+			if (!unfinishedOnly) {
+				return true
+			}
+			if (!finished.includes(t.taskId)) {
 				return true
 			}
 			return false
@@ -75,7 +78,7 @@
 			<button on:click={() => currentDate = addDay(currentDate, 1)} class="btn btn-primary"> Next </button>
 			<div class="w-full flex flex-col">
 				<label class="label cursor-pointer w-max space-x-2">
-					<input type="checkbox" name="" class="checkbox" bind:value={unfinishedOnly} />
+					<input type="checkbox" name="" class="checkbox" bind:checked={unfinishedOnly} />
 					<span class="label-text"> Hanya yang belum </span>
 				</label>
 			</div>
