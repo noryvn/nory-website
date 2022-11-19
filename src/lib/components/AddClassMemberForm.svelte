@@ -9,8 +9,7 @@
 	let loading = false;
 	let error: Error | null = null;
 	let success = false;
-	$: invalidUsername = !REGEX.USERNAME.test(username);
-	$: disabled = loading || invalidUsername || !username;
+	$: disabled = loading || !username;
 	async function addClassMember() {
 		try {
 			loading = true;
@@ -38,9 +37,6 @@
 		</label>
 		{#if success}
 			<span> Berhasil menambahkan anggota </span>
-		{/if}
-		{#if username && invalidUsername}
-			<span class="text-error"> Username tidak valid </span>
 		{/if}
 		{#if error}
 			<span class="text-error"> {error.message} </span>

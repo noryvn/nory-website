@@ -4,6 +4,7 @@
 	import { onMount } from "svelte";
 	import ScheduleCurrentCard from "./_ScheduleCurrentCard.svelte";
 	import ScheduleList from "./_ScheduleList.svelte";
+	import Icon from "@iconify/svelte"
 
 	export let schedules = [] as ClassSchedule[];
 	export let name;
@@ -17,7 +18,9 @@
 		<h2 class="text-3xl">
 			Jadwal Kelas {name}
 		</h2>
-		<!-- <button class="w-full" on:click={() => setting = !setting}> Setting </button> -->
+		<button class="w-full" on:click={() => setting = !setting}>
+			<Icon icon="ph:caret-double-down" class="mx-auto" />
+		</button>
 		{#if setting}
 			<div class="py-2 h-12">
 				<button class="btn btn-sm" on:click={() => (simple = !simple)}>
@@ -27,5 +30,5 @@
 		{/if}
 	</div>
 
-	<ScheduleList {schedules} />
+	<ScheduleList {schedules} {simple} />
 </div>

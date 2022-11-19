@@ -1,4 +1,4 @@
-import { noryClient } from "$lib/nory";
+import { noryClient, NoryError } from "$lib/nory";
 
 export const prerender = "auto"
 export const load = async ({ params, setHeaders }) => {

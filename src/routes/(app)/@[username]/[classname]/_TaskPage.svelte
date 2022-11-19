@@ -28,6 +28,16 @@
 	}
 	$: getTasks(currentDate)
 
+	let unfinishedOnly = false
+	function filterTasks(unfinishedOnly: boolean) {
+		return (t: ClassTask) => {
+			if (finished.includes(t.taskId)) {
+				return true
+			}
+			return false
+		}
+	}
+
 
 	let finished = []
 	let loaded = false
@@ -59,17 +69,23 @@
 		</h2>
 	</div>
 	<div class="flex flex-col p-4 border border-neutral rounded-md shadow h-full">
-		<div class="flex flex-row justify-between gap-2">
+		<div class="flex flex-row flex-wrap justify-between gap-2">
 			<button on:click={() => currentDate = addDay(currentDate, -1)} class="btn btn-primary"> Prev </button>
 			<input type="date" name="date" class="input input-bordered grow" bind:value={currentDate}>
 			<button on:click={() => currentDate = addDay(currentDate, 1)} class="btn btn-primary"> Next </button>
+			<div class="w-full flex flex-col">
+				<label class="label cursor-pointer w-max space-x-2">
+					<input type="checkbox" name="" class="checkbox" bind:value={unfinishedOnly} />
+					<span class="label-text"> Hanya yang belum </span>
+				</label>
+			</div>
 		</div>
 
 		<div class="divider">{new Date(currentDate).toLocaleString(undefined, { weekday: "long" })}</div>
 
 		<div class="flex flex-col space-y-4">
 			{#if cachedTasks[currentDate]}
-				{#each cachedTasks[currentDate] as task (task.taskId)}
+				{#each cachedTasks[currentDate].filter(filterTasks(unfinishedOnly)) as task (task.taskId)}
 					<div class="card card-compact bg-info text-info-content">
 						<div class="card-body">
 							<div class="flex flex-row items-center justify-between">
