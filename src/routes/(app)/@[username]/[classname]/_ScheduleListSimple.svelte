@@ -58,7 +58,7 @@
 	{#each schedulesByDay as _, ii}
 		{@const i = (ii + 1) % 7}
 		{@const current = date.getDay() === i}
-		{@const tommorow = date.getDay() + 1 === i}
+		{@const tommorow = (date.getDay() + 1) % 7 === i}
 		<div class="card card-compact bg-info text-info-content min-h-[12rem] ">
 			<div class="card-body">
 				<div class="justify-between flex-row flex">
