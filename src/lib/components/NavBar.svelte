@@ -12,6 +12,9 @@
 		<a href="/" class="text-2xl"> Nory </a>
 	</div>
 	<div class="flex-none w-12 h-12">
+		<SwitchThemeButton />
+	</div>
+	<div class="flex-none w-12 h-12">
 		<label class="swap swap-rotate">
 			<input type="checkbox" bind:checked={menu} />
 			<Icon icon="mdi:menu" class="swap-off w-8 h-8" />
@@ -28,9 +31,6 @@
 				<a class="text-lg w-full" href="/login"> Login </a>
 				<a class="text-lg w-full" href="/signup"> Signup </a>
 				<a class="text-lg w-full" href="/privacy-policy"> Kebijakan Privasi </a>
-				<div class="w-full flex flex-row justify-end">
-					<SwitchThemeButton />
-				</div>
 			</div>
 		</div>
 	{/if}
