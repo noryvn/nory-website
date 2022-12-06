@@ -8,9 +8,12 @@
 	import UserProfile from "$lib/components/UserProfile.svelte";
 	import UserSetting from "$lib/components/UserSetting.svelte";
 
+	import CreateClassForm from "./_CreateClassForm.svelte"
+
 	$: user = $page.data.user;
 	$: members = $page.data.members;
 	let selected = "class";
+	let showCreateClassForm = false
 </script>
 
 <main class="w-full flex flex-col">
@@ -41,16 +44,24 @@
 		</btn>
 	</div>
 
-	<section class="my-4 p-4">
+	<section class="my-4 px-4">
 		{#if selected === "class"}
-			<div class="w-full flex flex-row justify-between">
+			<div 
+				class="w-full flex flex-col space-y-2 justify-between"
+			>
+				<button 
+					on:click={() => showCreateClassForm = !showCreateClassForm}
+					class="btn btn-primary btn-sm"
+				> 
+					Buat Kelas
+				</button>
+				<CreateClassForm bind:show={showCreateClassForm} />
 				<h2>Daftar Kelas:</h2>
-				<a href="{$page.url.href}/new-class" class="btn btn-primary btn-sm"> Buat Kelas </a>
 			</div>
 
 			<div class="py-4 grid grid-cols-1 gap-2">
 				{#each members as m (m.classId)}
-					<div class="card card-bordered bg-base-300 shadow">
+					<div class="card card-bordered card-compact bg-base-300 shadow">
 						<div class="card-body">
 							<span class="card-title">
 								{#await noryClient.getClassInfo(m.classId)}

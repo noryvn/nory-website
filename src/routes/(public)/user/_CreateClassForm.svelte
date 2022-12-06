@@ -1,25 +1,31 @@
 <script lang="ts">
 	import { noryClient } from "$lib/nory";
 	import { goto } from "$app/navigation";
-
+	export let show
 	let name: string;
 	let description: string;
 	let loading = false;
-	$: disabled = loading || name === "" || description === "";
+	let error: Error | null = null
+	$: disabled = loading || !name || !description;
 
 	async function onSubmit() {
 		try {
 			loading = true;
+			error = null
 			await noryClient.createClass({ name, description });
-			goto("/user");
+			show = false
+			name = ""
+			description = ""
+		} catch (e) {
+			error = e
 		} finally {
 			loading = false;
 		}
 	}
 </script>
 
-<main>
-	<form class="form-control bg-base-200 gap-2 p-4" on:submit|preventDefault={onSubmit}>
+{#if show}
+	<form class="form-control bg-base-200 gap-2 p-4 w-full" on:submit|preventDefault={onSubmit}>
 		<label class="input-group w-full">
 			<span> Name: </span>
 			<input bind:value={name} type="text" name="name" class="grow input input-bordered" />
@@ -35,7 +41,6 @@
 		</label>
 
 		<button type="submit" class="btn btn-primary" class:loading {disabled}> Create </button>
+		<button type="button" class="btn btn-warning" on:click={() => show = false}> Close </button>
 	</form>
-</main>
-
-<div class="flex-auto" />
+{/if}
