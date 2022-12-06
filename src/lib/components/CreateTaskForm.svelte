@@ -6,7 +6,7 @@
 	import * as toast from "$lib/components/SvelteToast.svelte"
 
 	export let options = []
-	$: uniqueOptions = [...new Set(options)]
+	$: uniqueOptions = [...new Set(options)].sort()
 	const currentDate = new Date().toISOString().slice(0, 10);
 
 	let loading = false;
