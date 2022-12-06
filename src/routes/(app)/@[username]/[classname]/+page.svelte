@@ -12,7 +12,7 @@
 		task: "Tugas",
 	};
 	$: classInfo = $page.data.classInfo;
-	$: schedulesName = [...new Set($page.data.schedules.map(i => i.name))]
+	$: schedulesName = [...new Set($page.data.schedules?.map(i => i.name))]
 </script>
 
 <svelte:head>

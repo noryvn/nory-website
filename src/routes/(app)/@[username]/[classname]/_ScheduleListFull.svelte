@@ -46,7 +46,8 @@
 	function addDisplayedDay(n: number) {
 		displayedDay += n % 7 + 7
 		displayedDay %= 7
-		while (schedulesByDay && !schedulesByDay[displayedDay].length) {
+		let retry = 0
+		while (schedulesByDay && !schedulesByDay[displayedDay].length && retry++ < 7) {
 			displayedDay += n > 0 ? 1 : 6
 			displayedDay %= 7
 		}
