@@ -10,6 +10,9 @@
 	$: uniqueOptions = getUniqueOptions(options, name)
 	const u = new uFuzzy({})
 	function getUniqueOptions(options: string[], needle: string) {
+		if (needle === "") {
+			return []
+		}
 		const haystack = [...new Set(options)]
 		const idxs = u.filter(haystack, needle)
 		const info = u.info(idxs, haystack, needle)
