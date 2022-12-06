@@ -133,8 +133,6 @@
 
 	<span> *: wajib di isi</span>
 	<button type="submit" class="btn btn-primary mt-4" class:loading {disabled}> Buat </button>
-	{uniqueOptions.join()}-
-	{options.join()}
 </form>
 
 <datalist id="subject-names">
