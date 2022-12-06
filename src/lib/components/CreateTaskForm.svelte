@@ -6,6 +6,7 @@
 	import * as toast from "$lib/components/SvelteToast.svelte"
 
 	export let options = []
+	$: uniqueOptions = [...new Set(options)]
 	const currentDate = new Date().toISOString().slice(0, 10);
 
 	let loading = false;
@@ -123,7 +124,7 @@
 </form>
 
 <datalist id="subject-names">
-	{#each options as value} 
+	{#each uniqueOptions as value} 
 		<option {value} />
 	{/each}
 </datalist>
