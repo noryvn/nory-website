@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { noryClient } from "$lib/nory";
-	import { goto } from "$app/navigation";
+	import { invalidateAll } from "$app/navigation";
 	import { success } from "$lib/components/SvelteToast.svelte"
 
 	export let show
@@ -15,6 +15,7 @@
 			loading = true;
 			error = null
 			await noryClient.createClass({ name, description });
+			await invalidateAll()
 			show = false
 			name = ""
 			description = ""
