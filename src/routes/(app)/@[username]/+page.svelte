@@ -7,7 +7,7 @@
 	export let data: PageData;
 	let date = new Date()
 	$: ({ user } = data);
-	$: ownedClass = Array.from(user.ownedClass).sort((a, b) => a.name.localeCompare(b.name));
+	$: ownedClass = Array.from(user.ownedClass || []).sort((a, b) => a.name.localeCompare(b.name));
 
 	function isCurrentSchedule(schedule: ClassSchedule) {
 		if (schedule.day !== date.getDay()) {
