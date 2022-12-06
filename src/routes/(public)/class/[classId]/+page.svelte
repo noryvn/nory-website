@@ -77,7 +77,7 @@
 		<div class="px-4 flex flex-col">
 			<LoginGuard>
 				<h2 class="mt-4 text-3xl">Tugas Baru</h2>
-				<CreateTaskForm />
+				<CreateTaskForm options={$page.data.schedule.map(i => i.name)} />
 			</LoginGuard>
 			<div class="divider" />
 			<h2 class="mt-4 text-3xl">Daftar Tugas</h2>

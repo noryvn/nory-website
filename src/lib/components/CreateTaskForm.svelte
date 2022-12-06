@@ -5,6 +5,7 @@
 	import { invalidateAll } from "$app/navigation";
 	import * as toast from "$lib/components/SvelteToast.svelte"
 
+	export let options = []
 	const currentDate = new Date().toISOString().slice(0, 10);
 
 	let loading = false;
@@ -57,6 +58,8 @@
 		id="task-name-input"
 		type="text"
 		name="name"
+		list="subject-names"
+		autocomplete="off"
 		class="input input-bordered grow"
 		bind:value={name}
 	/>
@@ -118,3 +121,9 @@
 	<span> *: wajib di isi</span>
 	<button type="submit" class="btn btn-primary mt-4" class:loading {disabled}> Buat </button>
 </form>
+
+<datalist id="subject-names">
+	{#each options as value} 
+		<option {value} />
+	{/each}
+</datalist>
