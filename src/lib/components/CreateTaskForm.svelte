@@ -3,6 +3,7 @@
 	import { noryClient, user } from "$lib/nory";
 	import { page } from "$app/stores";
 	import { invalidateAll } from "$app/navigation";
+	import * as toast from "$lib/components/SvelteToast.svelte"
 
 	const currentDate = new Date().toISOString().slice(0, 10);
 
@@ -39,6 +40,7 @@
 			description = "";
 			dueDate = currentDate;
 			message = "Berhasil menambahkan tugas";
+			toast.success(message)
 		} catch (e) {
 			error = e;
 		} finally {

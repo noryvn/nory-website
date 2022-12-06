@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { noryClient } from "$lib/nory";
 	import { goto } from "$app/navigation";
+	import { success } from "$lib/components/SvelteToast.svelte"
+
 	export let show
 	let name: string;
 	let description: string;
@@ -16,6 +18,7 @@
 			show = false
 			name = ""
 			description = ""
+			success("Berhasil membuat kelas")
 		} catch (e) {
 			error = e
 		} finally {

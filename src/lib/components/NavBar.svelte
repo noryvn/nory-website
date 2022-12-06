@@ -7,7 +7,7 @@
 	let menu = false;
 </script>
 
-<nav class="navbar bg-base-100 border-base-content border-b relative">
+<nav class="navbar bg-base-100 border-base-content border-b relative z-30">
 	<div class="flex-1">
 		<a href="/" class="text-2xl"> Nory </a>
 	</div>
@@ -22,7 +22,7 @@
 		</label>
 	</div>
 	{#if menu}
-		<div class="navbar bg-base-100 border-base-content border-b absolute top-full left-0 z-50">
+		<div class="navbar bg-base-100 border-base-content border-b absolute top-full left-0 z-30">
 			<div class="flex-1 flex flex-col items-start">
 				<LoginGuard>
 					<UserProfilePreview />

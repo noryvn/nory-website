@@ -2,6 +2,8 @@
 	import "../app.css";
 	import "@fontsource/abel/400.css";
 
+	import SvelteToast from "$lib/components/SvelteToast.svelte"
+
 	import { onMount } from "svelte";
 	import { invalidateAll, goto } from "$app/navigation";
 	import { page } from "$app/stores";
@@ -49,6 +51,7 @@
 	});
 </script>
 
+<SvelteToast />
 <div class="font-abel min-h-screen flex flex-col bg-base-100">
 	<slot />
 </div>
