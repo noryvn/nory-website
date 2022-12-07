@@ -2,6 +2,7 @@
 	import type { Class } from "$lib/nory"
 	import { noryClient } from "$lib/nory"
 	import { goto } from "$app/navigation"
+	import ClassUpdateForm from "$lib/components/ClassUpdateForm.svelte"
 
 	export let classInfo: Class
 
@@ -29,7 +30,10 @@
 	}
 </script>
 
-<div>
+<div class="flex flex-col">
+	<ClassUpdateForm {classInfo} />
+	<div class="p-4"></div>
+	<div class="divider"> Danger Zone </div>
 	<button 
 		class="btn btn-warning btn-block"
 		class:loading={deleting}

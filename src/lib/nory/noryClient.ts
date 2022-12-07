@@ -157,6 +157,14 @@ export class NoryClient {
 		});
 	}
 
+	updateClass(classInfo: Class) {
+		return this.fetch<null>({
+			path: `/class/${classInfo.classId}`,
+			method: "PATCH",
+			json: classInfo,
+		})
+	}
+
 	getProfile() {
 		return this.fetch<User>({
 			path: "/user/profile"
