@@ -58,9 +58,11 @@
 		localStorage.setItem("finish", JSON.stringify(finished))
 	}
 	$: loaded && saveFinished(finished)
+	$: loaded && localStorage.setItem("task:unfinishedOnly", unfinishedOnly.toString())
 
 	onMount(() => {
 		hint = localStorage.getItem("hint-task") !== new Date().toISOString().slice(0, 10)
+		unfinishedOnly = localStorage.getItem("task:unfinishedOnly") === "true"
 		loadFinished()
 	})
 </script>
