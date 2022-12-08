@@ -18,6 +18,9 @@
 	}
 
 	function isCurrentSchedule(schedule: ClassSchedule) {
+		if (!browser) {
+			return false
+		}
 		if (schedule.day !== date.getDay()) {
 			return false
 		}
