@@ -5,6 +5,7 @@
 	import { QUERY } from "$lib/constant";
 	import { goto } from "$app/navigation";
 	import GoogleSignin from "$lib/components/GoogleSignin.svelte"
+	import ThirdPartyLoginButton from "$lib/components/ThirdPartyLoginButton.svelte"
 
 	let email: string;
 	let password: string;
@@ -78,13 +79,12 @@
 				</button>
 			</div>
 			<div class="divider"></div>
-			<button
-				type="button"
-				class="w-3/5 mx-auto h-full hover:scale-95 select-none"
+			<ThirdPartyLoginButton
+				icon="bxl:google"
 				on:click={() => supabaseClient.auth.signInWithOAuth({ provider: "google" })}
 			>
-				<GoogleSignin />
-			</button>
+				Sign In dengan google
+			</ThirdPartyLoginButton>
 			{#if error}
 				<div class="alert alert-error">
 					{error.message}
