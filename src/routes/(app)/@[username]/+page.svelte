@@ -65,6 +65,8 @@
 							{@const current = schedule.find(i => isCurrentSchedule(i))}
 							{#if current}
 								<span> Pelajaran saat ini: <span class="capitalize"> {current.name} </span></span>
+							{:else}
+								<span> Pelajaran saat ini: Kosong</span>
 							{/if}
 						{/await}
 					</div>
