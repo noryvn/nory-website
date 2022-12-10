@@ -25,6 +25,8 @@
 			if (redirectUrl) {
 				goto(redirectUrl);
 			}
+		} catch (e) {
+			error = e
 		} finally {
 			loading = false;
 		}
