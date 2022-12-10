@@ -44,7 +44,7 @@
 </script>
 
 <form class="form-control" on:submit|preventDefault={createSchedule}>
-	<h2 class="text-3xl">Jadwal Baru:</h2>
+	<h2 class="text-3xl">Jadwal Baru</h2>
 
 	<label class="label" for="name-input"> Nama:* </label>
 	<input id="name-input" type="text" name="name" class="input input-bordered" bind:value={name} />
