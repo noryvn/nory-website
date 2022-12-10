@@ -21,7 +21,7 @@
 				password
 			});
 			error = e;
-			let redirectUrl = $page.url.searchParams.get(QUERY.AFTER_LOGIN) || "/user";
+			const redirectUrl = $page.url.searchParams.get(QUERY.AFTER_LOGIN) || "/user";
 			if (redirectUrl) {
 				goto(redirectUrl);
 			}
