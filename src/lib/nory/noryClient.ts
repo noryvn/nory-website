@@ -161,8 +161,8 @@ export class NoryClient {
 		return this.fetch<null>({
 			path: `/class/${classInfo.classId}`,
 			method: "PATCH",
-			json: classInfo,
-		})
+			json: classInfo
+		});
 	}
 
 	getProfile() {
@@ -193,26 +193,26 @@ export class NoryClient {
 
 	getClassInfo(classId: string) {
 		return this.fetch<Class>({
-			path: `/class/${classId}/info`,
+			path: `/class/${classId}/info`
 		});
 	}
 
 	getClassTask(classId: string) {
 		return this.fetch<ClassTask[]>({
-			path: `/class/${classId}/task`,
+			path: `/class/${classId}/task`
 		});
 	}
 
 	getClassTaskAt(classId: string, date: Date) {
-		const to = new Date(date.getTime() + 86400_000)
+		const to = new Date(date.getTime() + 86400_000);
 		return this.fetch<ClassTask[]>({
-			path: `/class/${classId}/task?from=${date.toISOString()}&to=${to.toISOString()}`,
+			path: `/class/${classId}/task?from=${date.toISOString()}&to=${to.toISOString()}`
 		});
 	}
 
 	getClassMember(classId: string) {
 		return this.fetch<ClassMember[]>({
-			path: `/class/${classId}/member`,
+			path: `/class/${classId}/member`
 		});
 	}
 

@@ -1,6 +1,6 @@
 <script lang="ts">
-	export let t
-	export let msg
+	export let t;
+	export let msg;
 </script>
 
 <div class="alert alert-{t}">
@@ -9,10 +9,10 @@
 
 <style lang="postcss">
 	.keep {
-		@apply alert-success alert-info alert-warning
+		@apply alert-success alert-info alert-warning;
 	}
 
 	:global(*) {
-		@apply font-abel
+		@apply font-abel;
 	}
 </style>

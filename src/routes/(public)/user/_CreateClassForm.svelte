@@ -1,27 +1,27 @@
 <script lang="ts">
 	import { noryClient } from "$lib/nory";
 	import { invalidateAll } from "$app/navigation";
-	import { success } from "$lib/components/SvelteToast.svelte"
+	import { success } from "$lib/components/SvelteToast.svelte";
 
-	export let show
+	export let show;
 	let name: string;
 	let description: string;
 	let loading = false;
-	let error: Error | null = null
+	let error: Error | null = null;
 	$: disabled = loading || !name || !description;
 
 	async function onSubmit() {
 		try {
 			loading = true;
-			error = null
+			error = null;
 			await noryClient.createClass({ name, description });
-			await invalidateAll()
-			show = false
-			name = ""
-			description = ""
-			success("Berhasil membuat kelas")
+			await invalidateAll();
+			show = false;
+			name = "";
+			description = "";
+			success("Berhasil membuat kelas");
 		} catch (e) {
-			error = e
+			error = e;
 		} finally {
 			loading = false;
 		}
@@ -45,6 +45,6 @@
 		</label>
 
 		<button type="submit" class="btn btn-primary" class:loading {disabled}> Create </button>
-		<button type="button" class="btn btn-warning" on:click={() => show = false}> Close </button>
+		<button type="button" class="btn btn-warning" on:click={() => (show = false)}> Close </button>
 	</form>
 {/if}

@@ -9,14 +9,14 @@
 	let selected;
 	const texts = {
 		schedule: "Jadwal",
-		task: "Tugas",
+		task: "Tugas"
 	};
 	$: classInfo = $page.data.classInfo;
-	$: schedulesName = [...new Set($page.data.schedules?.map(i => i.name))]
+	$: schedulesName = [...new Set($page.data.schedules?.map((i) => i.name))];
 </script>
 
 <svelte:head>
-	<title> {classInfo.name} class home page. </title>
+	<title>{classInfo.name} class home page.</title>
 </svelte:head>
 
 <nav class="navbar bg-base-100 border-base-content border-b">
@@ -32,7 +32,6 @@
 	{#if selected === "task"}
 		<TaskPage {schedulesName} name={classInfo.name} classId={classInfo.classId} />
 	{/if}
-
 
 	<AppBottomNavbar classId={classInfo.classId} bind:selected />
 </div>

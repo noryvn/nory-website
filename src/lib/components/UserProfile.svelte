@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { page } from "$app/stores"
+	import { page } from "$app/stores";
 	export let user;
-	$: href = new URL(`/@${user.username}/`, $page.url).href
+	$: href = new URL(`/@${user.username}/`, $page.url).href;
 </script>
 
 <div class="grid grid-cols-4 gap-4">

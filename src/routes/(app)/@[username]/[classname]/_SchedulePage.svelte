@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { ClassSchedule } from "$lib/nory";
 	import { noryClient } from "$lib/nory";
-	import { persist } from "$lib/stores"
+	import { persist } from "$lib/stores";
 	import { onMount } from "svelte";
 	import ScheduleCurrentCard from "./_ScheduleCurrentCard.svelte";
 	import ScheduleList from "./_ScheduleList.svelte";
-	import Icon from "@iconify/svelte"
+	import Icon from "@iconify/svelte";
 
 	export let schedules = [] as ClassSchedule[];
 	export let name;
@@ -19,7 +19,7 @@
 		<h2 class="text-3xl">
 			Jadwal Kelas {name}
 		</h2>
-		<button class="w-full" on:click={() => setting = !setting}>
+		<button class="w-full" on:click={() => (setting = !setting)}>
 			<Icon icon="ph:caret-double-down" class="mx-auto" />
 		</button>
 		{#if setting}

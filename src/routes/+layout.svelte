@@ -2,7 +2,7 @@
 	import "../app.css";
 	import "@fontsource/abel/400.css";
 
-	import SvelteToast from "$lib/components/SvelteToast.svelte"
+	import SvelteToast from "$lib/components/SvelteToast.svelte";
 
 	import { onMount } from "svelte";
 	import { invalidateAll, goto } from "$app/navigation";

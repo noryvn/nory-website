@@ -12,13 +12,13 @@
 	const levelCompare = {
 		owner: 0xff >> i++,
 		admin: 0xff >> i++,
-		member: 0xff >> i++,
+		member: 0xff >> i++
 	};
 	const memberLevel = {
 		owner: "Pemilik",
 		admin: "Pengurus",
-		member: "Anggota",
-	}
+		member: "Anggota"
+	};
 
 	$: m = Array.from(members)
 		.sort((a, b) => {

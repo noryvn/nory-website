@@ -2,7 +2,7 @@
 	import { noryClient } from "$lib/nory";
 	import { invalidateAll } from "$app/navigation";
 	import { page } from "$app/stores";
-	import * as toast from "$lib/components/SvelteToast.svelte"
+	import * as toast from "$lib/components/SvelteToast.svelte";
 
 	let error: Error | null = null;
 	let success = false;
@@ -34,7 +34,7 @@
 			startAt = "00:00";
 			day = "-1";
 			duration = 0;
-			toast.success("Berhasil menambahkan jadwal")
+			toast.success("Berhasil menambahkan jadwal");
 		} catch (e) {
 			error = e;
 		} finally {

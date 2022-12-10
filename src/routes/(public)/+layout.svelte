@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-	<title> Nory is student driven school stuff </title>
+	<title>Nory is student driven school stuff</title>
 </svelte:head>
 
 <NavBar />

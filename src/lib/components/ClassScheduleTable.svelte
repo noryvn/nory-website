@@ -133,7 +133,9 @@
 			{#each s as schedule, i (schedule.scheduleId)}
 				{@const startAt = new Date(schedule.startAt.slice(0, -1))}
 				<tr>
-					<th> {new Date(2005, 8, schedule.day + 4).toLocaleDateString(undefined, { weekday: "long" })} </th>
+					<th>
+						{new Date(2005, 8, schedule.day + 4).toLocaleDateString(undefined, { weekday: "long" })}
+					</th>
 					<th> {schedule.name} </th>
 					<th>
 						{startAt.getHours().toString().padStart(2, "0")}:{startAt

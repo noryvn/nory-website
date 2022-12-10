@@ -3,21 +3,21 @@
 	import { noryClient, user } from "$lib/nory";
 	import { page } from "$app/stores";
 	import { invalidateAll } from "$app/navigation";
-	import * as toast from "$lib/components/SvelteToast.svelte"
-	import uFuzzy from "@leeoniya/ufuzzy"
+	import * as toast from "$lib/components/SvelteToast.svelte";
+	import uFuzzy from "@leeoniya/ufuzzy";
 
-	export let options = []
-	$: uniqueOptions = getUniqueOptions(options, name)
-	const u = new uFuzzy({})
+	export let options = [];
+	$: uniqueOptions = getUniqueOptions(options, name);
+	const u = new uFuzzy({});
 	function getUniqueOptions(options: string[], needle: string) {
 		if (needle === "") {
-			return []
+			return [];
 		}
-		const haystack = [...new Set(options)]
-		const idxs = u.filter(haystack, needle)
-		const info = u.info(idxs, haystack, needle)
-		const order = u.sort(info, haystack, needle)
-		return order.slice(0, 4).map((_, i) => haystack[info.idx[order[i]]])
+		const haystack = [...new Set(options)];
+		const idxs = u.filter(haystack, needle);
+		const info = u.info(idxs, haystack, needle);
+		const order = u.sort(info, haystack, needle);
+		return order.slice(0, 4).map((_, i) => haystack[info.idx[order[i]]]);
 	}
 	const currentDate = new Date().toISOString().slice(0, 10);
 
@@ -54,7 +54,7 @@
 			description = "";
 			dueDate = currentDate;
 			message = "Berhasil menambahkan tugas";
-			toast.success(message)
+			toast.success(message);
 		} catch (e) {
 			error = e;
 		} finally {
@@ -136,7 +136,7 @@
 </form>
 
 <datalist id="subject-names">
-	{#each uniqueOptions as value} 
+	{#each uniqueOptions as value}
 		<option {value} />
 	{/each}
 </datalist>

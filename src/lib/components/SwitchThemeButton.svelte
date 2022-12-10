@@ -6,7 +6,7 @@
 	$: $theme = dark ? "dark" : "light";
 </script>
 
-<button class="btn no-animation btn-neutral flex flex-row" on:click={() => dark = !dark}>
+<button class="btn no-animation btn-neutral flex flex-row" on:click={() => (dark = !dark)}>
 	<label class="swap swap-flip h-12 w-12">
 		<input type="checkbox" name="theme toggle" checked={dark} />
 

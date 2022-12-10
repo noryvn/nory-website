@@ -7,7 +7,8 @@
 	let loading = false;
 	let success = false;
 	let error: Error | null = null;
-	$: invalidUsername = !REGEX.USERNAME.test(username) && username !== "" && username !== $user.username;
+	$: invalidUsername =
+		!REGEX.USERNAME.test(username) && username !== "" && username !== $user.username;
 	$: invalidName = name.length > 32;
 	$: disabled = loading || invalidUsername || invalidName;
 
@@ -40,7 +41,7 @@
 			bind:value={username}
 		/>
 		{#if invalidUsername}
-			<div class="text-error"> 
+			<div class="text-error">
 				<div class="flex flex-col">
 					<span> Username harus diawali angka atau huruf </span>
 					<span> Username harus diawali angka atau huruf </span>

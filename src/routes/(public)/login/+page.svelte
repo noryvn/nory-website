@@ -4,8 +4,8 @@
 	import { supabaseClient } from "$lib/supabaseClient";
 	import { QUERY } from "$lib/constant";
 	import { goto } from "$app/navigation";
-	import GoogleSignin from "$lib/components/GoogleSignin.svelte"
-	import ThirdPartyLoginButton from "$lib/components/ThirdPartyLoginButton.svelte"
+	import GoogleSignin from "$lib/components/GoogleSignin.svelte";
+	import ThirdPartyLoginButton from "$lib/components/ThirdPartyLoginButton.svelte";
 
 	let email: string;
 	let password: string;
@@ -26,7 +26,7 @@
 				goto(redirectUrl);
 			}
 		} catch (e) {
-			error = e
+			error = e;
 		} finally {
 			loading = false;
 		}
@@ -80,7 +80,7 @@
 					Login
 				</button>
 			</div>
-			<div class="divider"></div>
+			<div class="divider" />
 			<ThirdPartyLoginButton
 				icon="bxl:google"
 				on:click={() => supabaseClient.auth.signInWithOAuth({ provider: "google" })}

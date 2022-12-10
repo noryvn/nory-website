@@ -8,7 +8,7 @@
 
 	const menus = [
 		["schedule", "mdi:clock-check-outline", "Jadwal"],
-		["task", "mdi:clipboard-check-multiple-outline", "Tugas"],
+		["task", "mdi:clipboard-check-multiple-outline", "Tugas"]
 		// ["setting", "mdi:cog-outline", "Pengaturan"],
 	];
 

@@ -1,17 +1,17 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
-	import { noryClient } from "$lib/nory"
+	import { noryClient } from "$lib/nory";
 	import { page } from "$app/stores";
 	import Footer from "$lib/components/Footer.svelte";
 
 	export let data: PageData;
-	let date = new Date()
+	let date = new Date();
 	$: ({ user } = data);
 	$: ownedClass = Array.from(user.ownedClass || []).sort((a, b) => a.name.localeCompare(b.name));
 
 	function isCurrentSchedule(schedule: ClassSchedule) {
 		if (schedule.day !== date.getDay()) {
-			return false
+			return false;
 		}
 
 		const startAt = new Date(date.toISOString().slice(0, 10) + schedule.startAt.slice(10, -1));
@@ -26,7 +26,7 @@
 			return false;
 		}
 
-		return true
+		return true;
 	}
 
 	function addMinutes(date: Date, minutes: number) {
@@ -35,7 +35,7 @@
 </script>
 
 <svelte:head>
-	<title> Homepage of @{user.username} ({user.name}) </title>
+	<title>Homepage of @{user.username} ({user.name})</title>
 </svelte:head>
 
 <div class="p-6 max-w-xl container mx-auto space-y-4 grow">
@@ -58,11 +58,11 @@
 			<section class="flex p-4 bg-base-200 justify-between rounded shadow">
 				<div class="flex flex-col w-full">
 					<h2 class="text-2xl">{c.name}</h2>
-					<div> 
+					<div>
 						{#await noryClient.getClassSchedule(c.classId)}
 							<span>Loading...</span>
 						{:then { data: schedule }}
-							{@const current = schedule.find(i => isCurrentSchedule(i))}
+							{@const current = schedule.find((i) => isCurrentSchedule(i))}
 							{#if current}
 								<span> Pelajaran saat ini: <span class="capitalize"> {current.name} </span></span>
 							{:else}

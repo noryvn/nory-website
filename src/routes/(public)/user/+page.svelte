@@ -8,12 +8,12 @@
 	import UserProfile from "$lib/components/UserProfile.svelte";
 	import UserSetting from "$lib/components/UserSetting.svelte";
 
-	import CreateClassForm from "./_CreateClassForm.svelte"
+	import CreateClassForm from "./_CreateClassForm.svelte";
 
 	$: user = $page.data.user;
 	$: members = $page.data.members;
 	let selected = "class";
-	let showCreateClassForm = false
+	let showCreateClassForm = false;
 </script>
 
 <main class="w-full flex flex-col">
@@ -46,13 +46,11 @@
 
 	<section class="my-4 px-4">
 		{#if selected === "class"}
-			<div 
-				class="w-full flex flex-col space-y-2 justify-between"
-			>
-				<button 
-					on:click={() => showCreateClassForm = !showCreateClassForm}
+			<div class="w-full flex flex-col space-y-2 justify-between">
+				<button
+					on:click={() => (showCreateClassForm = !showCreateClassForm)}
 					class="btn btn-primary btn-sm"
-				> 
+				>
 					Buat Kelas
 				</button>
 				<CreateClassForm bind:show={showCreateClassForm} />

@@ -3,7 +3,7 @@
 	import { noryClient } from "$lib/nory";
 	import { page } from "$app/stores";
 	import { invalidateAll } from "$app/navigation";
-	import { onMount } from "svelte"
+	import { onMount } from "svelte";
 
 	import CreateTaskForm from "$lib/components/CreateTaskForm.svelte";
 	import ClassTaskTable from "$lib/components/ClassTaskTable.svelte";
@@ -20,17 +20,16 @@
 	$: member = $page.data.member;
 	$: info = $page.data.info;
 
-	let classUrl = "/loading"
+	let classUrl = "/loading";
 
 	onMount(async () => {
-		const userId = member.find(i => i.level === "owner").userId
+		const userId = member.find((i) => i.level === "owner").userId;
 		if (!userId) {
-			return
+			return;
 		}
-		const { data: user } = await noryClient.getProfileById(userId)
-		classUrl = new URL(`/@${user.username}/${info.name}`, $page.url).href
-	})
-
+		const { data: user } = await noryClient.getProfileById(userId);
+		classUrl = new URL(`/@${user.username}/${info.name}`, $page.url).href;
+	});
 </script>
 
 <main class="flex-auto">
@@ -77,7 +76,7 @@
 		<div class="px-4 flex flex-col">
 			<LoginGuard>
 				<h2 class="mt-4 text-3xl">Tugas Baru</h2>
-				<CreateTaskForm options={$page.data.schedule.map(i => i.name)} />
+				<CreateTaskForm options={$page.data.schedule.map((i) => i.name)} />
 			</LoginGuard>
 			<div class="divider" />
 			<h2 class="mt-4 text-3xl">Daftar Tugas</h2>
