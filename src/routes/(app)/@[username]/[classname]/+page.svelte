@@ -5,6 +5,7 @@
 	import Footer from "$lib/components/Footer.svelte";
 	import SchedulePage from "./_SchedulePage.svelte";
 	import TaskPage from "./_TaskPage.svelte";
+	import { browser } from "$app/environment"
 
 	let selected;
 	const texts = {
@@ -26,10 +27,10 @@
 </nav>
 
 <div class="p-4 flex flex-col space-y-4 grow">
-	{#if selected === "schedule"}
+	{#if browser && selected === "schedule"}
 		<SchedulePage schedules={$page.data.schedules} name={classInfo.name} />
 	{/if}
-	{#if selected === "task"}
+	{#if browser && selected === "task"}
 		<TaskPage {schedulesName} name={classInfo.name} classId={classInfo.classId} />
 	{/if}
 
