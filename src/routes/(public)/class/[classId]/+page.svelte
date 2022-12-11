@@ -80,7 +80,7 @@
 			</LoginGuard>
 			<div class="divider" />
 			<h2 class="mt-4 text-3xl">Daftar Tugas</h2>
-			<ClassTaskTable tasks={$page.data.task} class="-mx-4" />
+			<ClassTaskTable tasks={$page.data.task} classId={$page.data.info.classId} class="-mx-4" />
 		</div>
 	{:else if selected === "member"}
 		<div class="px-4 flex flex-col">

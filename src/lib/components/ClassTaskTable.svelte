@@ -7,6 +7,7 @@
 	import LoginGuard from "$lib/components/LoginGuard.svelte";
 
 	export let tasks: ClassTask[] = [];
+	export let classId = ""
 	let asc = true;
 	let field = "dueDate";
 
@@ -67,13 +68,33 @@
 			}
 		};
 	}
+
+	let taskFrom = new Date().toISOString().slice(0, 10)
+	let taskTo = new Date(new Date().getTime() + 86400_000 * 7).toISOString().slice(0, 10)
+
+	async function getTasks(taskFrom: Date, taskTo: Date) {
+		try {
+			loading = true
+			const res = await noryClient.getClassTask(classId, {
+				from: taskFrom,
+				to: taskTo,
+			})
+			tasks = res.data
+		} catch (e) {
+			error = e
+		} finally {
+			loading = false
+		}
+	}
+
+	$: getTasks(taskFrom, taskTo)
 </script>
 
-<div class={$$props.class}>
-	<span class="p-4 w-full">
-		Di Urutkan berdasarkan {fieldText[field]} secara {asc ? "ascending" : "descending"}
+<div class="{$$props.class} space-y-2">
+	<span class="px-4 w-full">
+		Di Urutkan berdasarkan {fieldText[field] || field} secara {asc ? "ascending" : "descending"}
 	</span>
-	<div class="p-4">
+	<div class="px-4">
 		{#if success}
 			<div class="alert alert-info">Berhasil menghapus tugas</div>
 		{/if}
@@ -82,6 +103,17 @@
 				{error.message}
 			</div>
 		{/if}
+	</div>
+	<div class="form-control space-y-2 px-4">
+		<h2> Filter: </h2>
+		<label class="input-group">
+			<span class="label-text w-24"> Dari </span>
+			<input bind:value={taskFrom} type="date" name="from-date" class="input input-bordered w-full">
+		</label>
+		<label class="input-group">
+			<span class="label-text w-24"> Hingga </span>
+			<input bind:value={taskTo} type="date" name="to-date" class="input input-bordered w-full">
+		</label>
 	</div>
 	<div class="overflow-x-auto">
 		<table class="table table-zebra w-full table-compact">

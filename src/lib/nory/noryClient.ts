@@ -197,9 +197,16 @@ export class NoryClient {
 		});
 	}
 
-	getClassTask(classId: string) {
+	getClassTask(classId: string, searchParams = {}) {
+		if (searchParams.from) {
+			searchParams.from = new Date(searchParams.from).toISOString()
+		}
+		if (searchParams.to) {
+			searchParams.to = new Date(searchParams.to).toISOString()
+		}
 		return this.fetch<ClassTask[]>({
-			path: `/class/${classId}/task`
+			path: `/class/${classId}/task`,
+			searchParams,
 		});
 	}
 
