@@ -22,7 +22,7 @@
 </div>
 
 <div class="p-8 mx-auto">
-	<div class="card w-96 bg-base-200 card-bordered border-base-content my-4">
+	<div class="card w-full max-w-xs bg-base-200 card-bordered border-base-content my-4">
 		<div class="card-body">
 			<h2 class="card-title">Tech Stacks</h2>
 			<p>
@@ -64,7 +64,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="card w-96 bg-base-200 card-bordered border-base-content my-4">
+	<div class="card w-full max-w-xs bg-base-200 card-bordered border-base-content my-4">
 		<div class="card-body">
 			<h2 class="card-title">Naming</h2>
 			<p>
@@ -73,7 +73,7 @@
 			</p>
 		</div>
 	</div>
-	<div class="card w-96 bg-base-200 card-bordered border-base-content my-4">
+	<div class="card w-full max-w-xs bg-base-200 card-bordered border-base-content my-4">
 		<div class="card-body">
 			<h2 class="card-title">Open Source</h2>
 			<p>
