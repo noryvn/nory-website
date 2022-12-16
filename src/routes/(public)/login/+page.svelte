@@ -37,7 +37,7 @@
 	<div class="hero-content">
 		<div
 			on:submit|preventDefault={() => login()}
-			class="w-[40rem] max-w-sm bg-base-100 border-base-content border p-8 rounded-xl flex flex-col"
+			class="max-w-sm bg-base-100 border-base-content border p-8 rounded-xl flex flex-col"
 		>
 			<div class="text-center">
 				<h1 class="font-bold text-4xl">Login</h1>
