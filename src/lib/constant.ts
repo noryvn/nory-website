@@ -11,6 +11,6 @@ export const LOCAL_STORAGE = {
 } as const;
 
 export const REGEX = {
-	USERNAME: /^([a-z0-9])(?=.*[_])([a-z0-9_]{0,18})([a-z0-9])$/i,
+	USERNAME: /^([a-z0-9_])$/i,
 	CLASS_NAME: /^[a-z0-9-_.\(\)].*$/i
 };
